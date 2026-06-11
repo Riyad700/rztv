@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বাংলাদেশ লাইভ টিভি</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a22;
+    --card: #22222e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #e8463a;
+    --accent2: #ff6b5e;
+    --text: #f0f0f0;
+    --muted: #888;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.5; transform:scale(1.3); }
+  }
+  .header-title { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; }
+  .header-title span { color: var(--accent); }
+  .header-sub { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+  /* Player */
+  .player-wrap {
+    background: #000;
+    position: relative;
+    aspect-ratio: 16/9;
+    width: 100%;
+    max-height: 260px;
+  }
+  video {
+    width: 100%; height: 100%;
+    display: block;
+    background: #000;
+  }
+  .player-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner.active { display: block; }
+
+  .now-playing-bar {
+    background: var(--surface);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .channel-logo-sm {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    object-fit: contain;
+    background: var(--card);
+    padding: 3px;
+    flex-shrink: 0;
+  }
+  .channel-logo-sm.placeholder {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--accent);
+  }
+  .now-info { flex: 1; min-width: 0; }
+  .now-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .now-status { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+  .live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+  .live-dot.error { background: var(--red); }
+  .fullscreen-btn {
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: 18px; padding: 4px;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+  .fullscreen-btn:hover { color: var(--text); }
+
+  /* Quality selector */
+  .quality-wrap { position: relative; flex-shrink: 0; }
+  .quality-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 11px; font-weight: 700;
+    padding: 4px 8px; border-radius: 5px;
+    cursor: pointer; letter-spacing: 0.3px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .quality-btn:hover { background: rgba(255,255,255,0.12); }
+  .quality-btn.hidden { display: none; }
+  .quality-menu {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: #1e1e2a;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 120px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    z-index: 200;
+  }
+  .quality-menu.open { display: block; }
+  .quality-menu-title {
+    font-size: 10px; color: var(--muted);
+    padding: 8px 12px 4px; letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .quality-item {
+    padding: 9px 12px; font-size: 13px;
+    cursor: pointer; display: flex; align-items: center; gap: 8px;
+    transition: background 0.15s; color: var(--muted);
+  }
+  .quality-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+  .quality-item.active { color: var(--accent); }
+  .quality-check { width: 14px; font-size: 11px; flex-shrink: 0; }
+
+  /* Error banner */
+  .err-banner {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: #fca5a5;
+    font-size: 12px;
+    padding: 8px 16px;
+    display: none;
+    align-items: center;
+    gap: 6px;
+  }
+  .err-banner.show { display: flex; }
+  .retry-btn {
+    margin-left: auto;
+    background: rgba(239,68,68,0.2);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: #fca5a5;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  /* Category tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* Channel grid */
+  .channels {
+    padding: 12px 12px 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .ch-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ch-card:active { transform: scale(0.97); }
+  .ch-card.selected {
+    border-color: var(--accent);
+    background: rgba(232,70,58,0.08);
+  }
+  .ch-card.selected::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    border-radius: 3px 0 0 3px;
+  }
+  .ch-logo {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.05);
+    padding: 4px;
+    flex-shrink: 0;
+  }
+  .ch-logo-placeholder {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    background: rgba(232,70,58,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    letter-spacing: -0.5px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .ch-info { min-width: 0; flex: 1; }
+  .ch-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ch-cat { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .ch-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(34,197,94,0.15);
+    color: var(--green);
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  /* Player section সবসময় উপরে থাকবে স্ক্রল করলেও */
+  .player-section {
+    position: sticky;
+    top: 53px;
+    z-index: 50;
+    background: var(--bg);
+  }
+
+  @media (min-width: 600px) {
+    .player-wrap { max-height: 380px; }
+    .channels { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .main-layout { display: grid; grid-template-columns: 1fr 360px; min-height: 100vh; }
+    .player-wrap { max-height: none; aspect-ratio: 16/9; }
+    .channels { grid-template-columns: repeat(2, 1fr); }
+    .sidebar { border-left: 1px solid var(--border); overflow-y: auto; max-height: calc(100vh - 53px); }
+    .player-section { position: sticky; top: 53px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-dot"></div>
+  <div class="header-title">বাংলাদেশ <span>লাইভ</span> টিভি</div>
+  <div class="header-sub" id="ch-count"></div>
+</div>
+
+<div class="main-layout">
+  <div class="player-section">
+    <div class="player-wrap">
+      <video id="player" autoplay playsinline controls></video>
+      <div class="player-overlay"><div class="spinner" id="spinner"></div></div>
+    </div>
+
+    <div class="now-playing-bar">
+      <div id="np-logo-wrap"></div>
+      <div class="now-info">
+        <div class="now-name" id="np-name">চ্যানেল বেছে নিন</div>
+        <div class="now-status">
+          <div class="live-dot" id="live-dot"></div>
+          <span id="np-status">প্রস্তুত</span>
+        </div>
+      </div>
+      <div class="quality-wrap" id="quality-wrap">
+        <button class="quality-btn hidden" id="quality-btn" onclick="toggleQualityMenu()">AUTO ▾</button>
+        <div class="quality-menu" id="quality-menu"></div>
+      </div>
+      <button class="fullscreen-btn" id="fs-btn" title="ফুলস্ক্রিন" onclick="toggleFS()">⛶</button>
+    </div>
+
+    <div class="err-banner" id="err-banner">
+      <span>⚠️ স্ট্রিম লোড হচ্ছে না। নেট চেক করুন।</span>
+      <button class="retry-btn" onclick="retry()">আবার চেষ্টা</button>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="tabs" id="tabs"></div>
+    <div class="channels" id="channels"></div>
+  </div>
+</div>
+
+<script>
+const CHANNELS = [
+  { name:"BTV", cat:"সরকারি", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8", logo:"https://ssl.com.bd/sites/default/files/BTV%20Logo%20Gallery.png" },
+  { name:"NTV", cat:"বিনোদন", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8", logo:"https://www.ntvbd.com/sites/default/files/aggregator/2020/02/17/ntv-channel_0.jpg" },
+  { name:"Channel i", cat:"বিনোদন", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1723/output/index.m3u8", logo:"https://cdn.tvpassport.com/image/station/240x135/channel-i-bangla.png" },
+  { name:"ATN Bangla", cat:"বিনোদন", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ATN_Bangla.svg/200px-ATN_Bangla.svg.png" },
+  { name:"RTV", cat:"বিনোদন", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1718/output/index.m3u8", logo:"" },
+  { name:"Deepto TV", cat:"বিনোদন", url:"https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8", logo:"https://upload.wikimedia.org/wikipedia/en/3/31/Deepto_TV_logo.png" },
+  { name:"BanglaVision", cat:"বিনোদন", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8", logo:"" },
+  { name:"Somoy TV", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8", logo:"https://dl.dropbox.com/s/leielj83em5kg7h/somoy_news.png" },
+  { name:"Jamuna TV", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8", logo:"https://dl.dropbox.com/s/k7z1dsec1jfjbkn/jamuna_tv_bd.png" },
+  { name:"Ekattor TV", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8", logo:"https://s4.gifyu.com/images/imagea02f4314e761661d.png" },
+  { name:"Independent TV", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1704/output/index.m3u8", logo:"https://dl.dropbox.com/s/7xwwb8hetz3w8rp/independent_tv.png" },
+  { name:"Channel 24", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1703/output/index.m3u8", logo:"https://dl.dropbox.com/s/puf12xv5flgbnz5/channel24_bd.png" },
+  { name:"ATN News", cat:"সংবাদ", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1706/output/index.m3u8", logo:"https://dl.dropbox.com/s/4ldi1dp09s8o6bm/atn_news_bd.png" },
+  { name:"T Sports", cat:"খেলাধুলা", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1719/output/index.m3u8", logo:"" },
+  { name:"GTV", cat:"খেলাধুলা", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1720/output/index.m3u8", logo:"" },
+  { name:"ATN Music", cat:"সংগীত", url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1717/output/index.m3u8", logo:"" },
+  { name:"Deshi TV", cat:"বিনোদন", url:"https://deshitv.deshitv24.net/live/myStream/playlist.m3u8", logo:"https://i.postimg.cc/t4cxjxRj/Deshi-TV.jpg" },
+  { name:"Ekushey TV", cat:"বিনোদন", url:"https://ekusheyserver.com/hls-live/livepkgr/_definst_/liveevent/livestream3.m3u8", logo:"https://i.postimg.cc/C15wr1RW/Ekushey-Television-Logo-svg.png" },
+];
+
+const CATS = ["সব", ...new Set(CHANNELS.map(c => c.cat))];
+let activeCat = "সব";
+let currentIdx = -1;
+let hlsInstance = null;
+let selectedLevel = -1;
+
+const video = document.getElementById("player");
+const spinner = document.getElementById("spinner");
+const npName = document.getElementById("np-name");
+const npStatus = document.getElementById("np-status");
+const liveDot = document.getElementById("live-dot");
+const errBanner = document.getElementById("err-banner");
+const npLogoWrap = document.getElementById("np-logo-wrap");
+
+document.getElementById("ch-count").textContent = CHANNELS.length + " চ্যানেল";
+
+function buildTabs() {
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = CATS.map(c =>
+    `<div class="tab${c===activeCat?' active':''}" onclick="switchCat('${c}')">${c}</div>`
+  ).join("");
+}
+
+function switchCat(cat) {
+  activeCat = cat;
+  buildTabs();
+  buildGrid();
+}
+
+function getInitials(name) {
+  return name.replace(/TV|তিভি/gi,"").trim().slice(0,3).toUpperCase();
+}
+
+function buildGrid() {
+  const list = activeCat === "সব" ? CHANNELS : CHANNELS.filter(c => c.cat === activeCat);
+  const el = document.getElementById("channels");
+  el.innerHTML = list.map((ch, i) => {
+    const realIdx = CHANNELS.indexOf(ch);
+    const sel = realIdx === currentIdx;
+    const logoHtml = ch.logo
+      ? `<img class="ch-logo" src="${ch.logo}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><div class="ch-logo-placeholder" style="display:none">${getInitials(ch.name)}</div>`
+      : `<div class="ch-logo-placeholder">${getInitials(ch.name)}</div>`;
+    return `<div class="ch-card${sel?' selected':''}" onclick="playChannel(${realIdx})">
+      ${logoHtml}
+      <div class="ch-info">
+        <div class="ch-name">${ch.name}</div>
+        <div class="ch-cat">${ch.cat}</div>
+      </div>
+      <div class="ch-badge">LIVE</div>
+    </div>`;
+  }).join("");
+}
+
+function buildQualityMenu(levels) {
+  const btn = document.getElementById("quality-btn");
+  const menu = document.getElementById("quality-menu");
+
+  if (!levels || levels.length <= 1) {
+    btn.classList.add("hidden");
+    return;
+  }
+
+  btn.classList.remove("hidden");
+  selectedLevel = -1;
+  updateQualityBtn();
+
+  const items = [{ label: "অটো", level: -1 }, ...levels.map((l, i) => ({
+    label: l.height ? l.height + "p" : "লেভেল " + (i + 1),
+    level: i
+  }))];
+
+  menu.innerHTML = `<div class="quality-menu-title">মান নির্বাচন</div>` +
+    items.map(item => `
+      <div class="quality-item${item.level === selectedLevel ? ' active' : ''}"
+           onclick="setQuality(${item.level})">
+        <span class="quality-check">${item.level === selectedLevel ? '✓' : ''}</span>
+        ${item.label}
+      </div>`).join("");
+}
+
+function updateQualityBtn() {
+  const btn = document.getElementById("quality-btn");
+  if (selectedLevel === -1) {
+    btn.textContent = "AUTO ▾";
+    btn.style.color = "";
+  } else if (hlsInstance && hlsInstance.levels[selectedLevel]) {
+    const h = hlsInstance.levels[selectedLevel].height;
+    btn.textContent = (h ? h + "p" : "L" + (selectedLevel + 1)) + " ▾";
+    btn.style.color = "var(--accent)";
+  }
+}
+
+function setQuality(level) {
+  selectedLevel = level;
+  if (hlsInstance) {
+    hlsInstance.currentLevel = level;
+  }
+  updateQualityBtn();
+
+  // Rebuild menu to update checkmarks
+  if (hlsInstance) buildQualityMenu(hlsInstance.levels);
+  document.getElementById("quality-menu").classList.remove("open");
+}
+
+function toggleQualityMenu() {
+  document.getElementById("quality-menu").classList.toggle("open");
+}
+
+function resetQuality() {
+  selectedLevel = -1;
+  const btn = document.getElementById("quality-btn");
+  btn.classList.add("hidden");
+  btn.textContent = "AUTO ▾";
+  btn.style.color = "";
+  const menu = document.getElementById("quality-menu");
+  menu.classList.remove("open");
+  menu.innerHTML = "";
+}
+
+// Close menu on outside click
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("quality-wrap").contains(e.target)) {
+    document.getElementById("quality-menu").classList.remove("open");
+  }
+});
+
+function setStatus(msg, isErr=false) {
+  npStatus.textContent = msg;
+  liveDot.className = "live-dot" + (isErr?" error":"");
+}
+
+function showNowPlaying(ch) {
+  npName.textContent = ch.name;
+  npLogoWrap.innerHTML = ch.logo
+    ? `<img class="channel-logo-sm" src="${ch.logo}" onerror="this.style.display='none'" loading="lazy">`
+    : `<div class="channel-logo-sm placeholder">${getInitials(ch.name)}</div>`;
+}
+
+function retry() {
+  if (currentIdx >= 0) playChannel(currentIdx);
+}
+
+function playChannel(idx) {
+  if (idx === currentIdx && hlsInstance) return;
+  currentIdx = idx;
+  const ch = CHANNELS[idx];
+  errBanner.classList.remove("show");
+  resetQuality();
+
+  if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+
+  showNowPlaying(ch);
+  setStatus("লোড হচ্ছে...");
+  spinner.classList.add("active");
+  buildGrid();
+
+  if (Hls.isSupported()) {
+    hlsInstance = new Hls({
+      enableWorker: true,
+      lowLatencyMode: true,
+      backBufferLength: 30,
+    });
+    hlsInstance.loadSource(ch.url);
+    hlsInstance.attachMedia(video);
+
+    hlsInstance.on(Hls.Events.MANIFEST_PARSED, (e, data) => {
+      spinner.classList.remove("active");
+      setStatus("লাইভ সম্প্রচার");
+      buildQualityMenu(hlsInstance.levels);
+      if (selectedLevel !== -1) hlsInstance.currentLevel = selectedLevel;
+      video.play().catch(()=>{});
+    });
+
+    hlsInstance.on(Hls.Events.ERROR, (e, data) => {
+      if (data.fatal) {
+        spinner.classList.remove("active");
+        setStatus("সংযোগ বিচ্ছিন্ন", true);
+        errBanner.classList.add("show");
+      }
+    });
+
+  } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = ch.url;
+    video.addEventListener("loadedmetadata", () => {
+      spinner.classList.remove("active");
+      setStatus("লাইভ সম্প্রচার");
+      video.play().catch(()=>{});
+    }, {once:true});
+    video.addEventListener("error", () => {
+      spinner.classList.remove("active");
+      setStatus("সংযোগ বিচ্ছিন্ন", true);
+      errBanner.classList.add("show");
+    }, {once:true});
+  } else {
+    spinner.classList.remove("active");
+    setStatus("ব্রাউজার সাপোর্ট নেই", true);
+  }
+}
+
+function toggleFS() {
+  const pw = document.querySelector(".player-wrap");
+  if (!document.fullscreenElement) pw.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
+}
+
+buildTabs();
+buildGrid();
+playChannel(0);
+</script>
+</body>
+</html>

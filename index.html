@@ -565,6 +565,88 @@ video {
 }
 
 /* ═══════════════════════════════════════
+   FIFA WORLD CUP HIGHLIGHT CARD
+═══════════════════════════════════════ */
+.ch-card.fifa-highlight {
+  grid-column: 1 / -1;
+  border-color: rgba(245,166,35,0.6);
+  background: linear-gradient(135deg, rgba(245,166,35,0.1) 0%, rgba(34,211,238,0.05) 100%);
+  box-shadow: 0 0 0 1px rgba(245,166,35,0.22), 0 6px 28px rgba(245,166,35,0.15);
+  position: relative;
+  overflow: hidden;
+  padding: 16px 18px;
+  flex-direction: row;
+  gap: 16px;
+}
+.ch-card.fifa-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--gold), var(--gold2), var(--teal));
+  border-radius: 3px 0 0 3px;
+}
+.ch-card.fifa-highlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg,
+    transparent 20%,
+    rgba(245,166,35,0.06) 50%,
+    transparent 80%);
+  animation: fifaShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes fifaShimmer {
+  0%,100% { opacity: 0.4; transform: translateX(-80%); }
+  50%      { opacity: 1;   transform: translateX(80%); }
+}
+.ch-card.fifa-highlight .ch-logo {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.ch-card.fifa-highlight .ch-name {
+  color: var(--gold2);
+  font-weight: 800;
+  font-size: 15px;
+}
+.ch-card.fifa-highlight .ch-cat {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.ch-card.fifa-highlight .fifa-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.ch-card.fifa-highlight .fifa-badge {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #000;
+  letter-spacing: 1px;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  animation: fifaBadgePulse 2s ease-in-out infinite;
+}
+@keyframes fifaBadgePulse {
+  0%,100% { box-shadow: 0 0 6px rgba(245,166,35,0.4); }
+  50%      { box-shadow: 0 0 16px rgba(245,166,35,0.9); }
+}
+.ch-card.fifa-highlight .fifa-ext-tag {
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.4px;
+}
+
+/* ═══════════════════════════════════════
    SPLASH SCREEN
 ═══════════════════════════════════════ */
 #splash {
@@ -797,17 +879,53 @@ video {
 }
 #movie-section.visible { display: block; }
 
-.movie-hero {
-  background: linear-gradient(180deg, rgba(245,166,35,0.06) 0%, transparent 100%);
+/* ── Language Tabs (Bollywood / Bangla / South Indian) ── */
+.movie-lang-bar {
+  display: flex;
+  gap: 0;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
-  padding: 18px 16px 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 12px;
+}
+.movie-lang-bar::-webkit-scrollbar { display: none; }
+.movie-ltab {
+  padding: 13px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.movie-ltab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.movie-ltab:hover:not(.active) { color: var(--text); }
+.movie-ltab-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--muted2);
+  flex-shrink: 0;
+}
+.movie-ltab.active .movie-ltab-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+.movie-hero {
+  background: linear-gradient(180deg, rgba(245,166,35,0.05) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 14px 12px;
 }
 .movie-hero-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: 3px;
   color: var(--text);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .movie-hero-title em {
   font-style: normal;
@@ -819,7 +937,7 @@ video {
 
 .movie-search-row {
   display: flex;
-  gap: 8px;
+  gap: 7px;
   align-items: center;
 }
 .movie-search-input {
@@ -829,7 +947,7 @@ video {
   border-radius: 10px;
   color: var(--text);
   font-size: 13px;
-  padding: 9px 14px;
+  padding: 9px 13px;
   outline: none;
   transition: border-color 0.2s;
   font-family: 'Inter', sans-serif;
@@ -843,10 +961,10 @@ video {
   color: var(--gold);
   font-size: 12px;
   font-weight: 700;
-  padding: 9px 16px;
+  padding: 9px 15px;
   border-radius: 10px;
   cursor: pointer;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   transition: all 0.2s;
   font-family: 'Inter', sans-serif;
   white-space: nowrap;
@@ -854,19 +972,20 @@ video {
 .movie-search-btn:hover { background: rgba(245,166,35,0.2); }
 .movie-search-btn:active { transform: scale(0.97); }
 
+/* Genre filter tabs */
 .movie-genre-tabs {
   display: flex;
   gap: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 0 16px;
+  padding: 0 12px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
 .movie-genre-tabs::-webkit-scrollbar { display: none; }
 .movie-gtab {
-  padding: 11px 14px;
-  font-size: 11px;
+  padding: 10px 13px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--muted);
   cursor: pointer;
@@ -875,31 +994,32 @@ video {
   transition: all 0.2s;
   letter-spacing: 0.3px;
 }
-.movie-gtab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.movie-gtab.active { color: var(--teal); border-bottom-color: var(--teal); }
 .movie-gtab:hover:not(.active) { color: var(--text); }
 
 .movie-section-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--muted);
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  padding: 14px 16px 8px;
+  padding: 12px 14px 6px;
 }
 
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 0 12px 16px;
+  gap: 9px;
+  padding: 0 10px 14px;
 }
-@media (min-width: 600px) { .movie-grid { grid-template-columns: repeat(4, 1fr); } }
-@media (min-width: 900px) { .movie-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (min-width: 480px) { .movie-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 700px) { .movie-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (min-width: 1000px) { .movie-grid { grid-template-columns: repeat(6, 1fr); } }
 
 .movie-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 11px;
+  border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
@@ -907,11 +1027,33 @@ video {
   animation: cardIn 0.35s ease both;
 }
 .movie-card:hover {
-  border-color: var(--border-s);
+  border-color: rgba(245,166,35,0.35);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(245,166,35,0.08);
 }
 .movie-card:active { transform: scale(0.97); }
+
+/* Play overlay on hover */
+.movie-card-poster-wrap { position: relative; overflow: hidden; }
+.movie-card-play-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.movie-card:hover .movie-card-play-overlay { opacity: 1; }
+.play-circle {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(245,166,35,0.9);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(245,166,35,0.5);
+}
 
 .movie-poster {
   width: 100%;
@@ -930,11 +1072,9 @@ video {
   font-size: 28px;
   color: var(--muted2);
 }
-.movie-card-info {
-  padding: 8px 9px 10px;
-}
+.movie-card-info { padding: 7px 8px 9px; }
 .movie-card-title {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.35;
@@ -942,7 +1082,7 @@ video {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .movie-card-meta {
   display: flex;
@@ -959,21 +1099,21 @@ video {
   font-size: 9px;
   color: var(--gold);
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 2px;
 }
 
-/* ── Movie Detail Modal ── */
+/* ════════════════════════════════════════
+   MOVIE DETAIL MODAL — redesigned
+════════════════════════════════════════ */
 .movie-modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 5000;
-  background: rgba(0,0,0,0.82);
+  background: rgba(0,0,0,0.88);
   overflow-y: auto;
-  padding: 16px;
-  backdrop-filter: blur(4px);
+  padding: 12px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .movie-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
 
@@ -982,71 +1122,85 @@ video {
   border: 1px solid var(--border-m);
   border-radius: 18px;
   width: 100%;
-  max-width: 680px;
+  max-width: 700px;
   overflow: hidden;
   animation: riseIn 0.3s ease both;
   margin: auto;
   position: relative;
 }
 
-.movie-modal-backdrop {
+/* Close button */
+.movie-modal-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.movie-modal-close:hover { background: rgba(255,255,255,0.18); }
+
+.movie-modal-body { padding: 14px; }
+
+/* Movie info header */
+.movie-modal-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+.movie-modal-poster {
+  width: 72px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-m);
+}
+.movie-modal-poster img {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 2/3;
   object-fit: cover;
   display: block;
-  background: var(--surface2);
 }
-.movie-modal-backdrop-ph {
+.movie-modal-poster-ph {
   width: 100%;
-  height: 160px;
-  background: linear-gradient(135deg, var(--surface2), var(--card));
+  aspect-ratio: 2/3;
+  background: var(--surface2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
+  font-size: 22px;
 }
-
-.movie-modal-close {
-  position: absolute;
-  top: 12px; right: 12px;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--text);
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  z-index: 2;
-}
-.movie-modal-close:hover { background: rgba(255,255,255,0.15); }
-
-.movie-modal-body { padding: 16px; }
+.movie-modal-meta { flex: 1; min-width: 0; }
 .movie-modal-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 24px;
-  letter-spacing: 2px;
+  font-size: 21px;
+  letter-spacing: 1.5px;
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   line-height: 1.1;
 }
 .movie-modal-tagline {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   font-style: italic;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 .movie-modal-badges {
   display: flex;
-  gap: 7px;
+  gap: 5px;
   flex-wrap: wrap;
-  margin-bottom: 12px;
 }
 .movie-badge {
   font-size: 9px;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 20px;
   letter-spacing: 0.5px;
 }
@@ -1056,51 +1210,191 @@ video {
 .badge-genre { background: rgba(139,92,246,0.1); color: #a78bfa; border: 1px solid rgba(139,92,246,0.25); }
 
 .movie-modal-overview {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--muted);
   line-height: 1.65;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.movie-stream-section { margin-top: 4px; }
+/* ── EMBED PLAYER ── */
+.embed-player-section { margin-bottom: 14px; }
+
+/* Server switcher */
+.server-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.server-tab-label {
+  font-size: 9px;
+  color: var(--muted2);
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+.server-tab {
+  background: var(--card);
+  border: 1px solid var(--border-m);
+  color: var(--muted);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.server-tab:hover { color: var(--text); border-color: var(--border-s); }
+.server-tab.active {
+  background: var(--gold-dim);
+  border-color: rgba(245,166,35,0.45);
+  color: var(--gold);
+}
+.server-tab.trying {
+  background: rgba(34,211,238,0.08);
+  border-color: rgba(34,211,238,0.3);
+  color: var(--teal);
+  animation: tabPulse 1s ease-in-out infinite;
+}
+.server-tab.failed {
+  background: rgba(248,113,113,0.07);
+  border-color: rgba(248,113,113,0.25);
+  color: #f87171;
+  opacity: 0.7;
+}
+@keyframes tabPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+.server-status-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.server-status-dot.ok { background: var(--green); box-shadow: 0 0 5px rgba(16,185,129,0.6); }
+.server-status-dot.trying { background: var(--teal); }
+.server-status-dot.fail { background: var(--red); }
+
+.movie-player-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 11px;
+  overflow: hidden;
+  border: 1px solid var(--border-m);
+}
+.movie-player-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+/* Loading overlay inside player */
+.embed-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 2;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.embed-loading-overlay.hide { opacity: 0; }
+.embed-loading-overlay .mini-spinner {
+  width: 32px; height: 32px;
+  border: 2.5px solid rgba(245,166,35,0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.embed-loading-text { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
+.embed-loading-server { font-size: 10px; color: var(--gold); font-weight: 700; margin-top: -4px; }
+
+/* Error state inside player */
+.embed-error-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 3;
+}
+.embed-error-overlay.show { display: flex; }
+.embed-error-icon { font-size: 30px; }
+.embed-error-msg { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; }
+.embed-retry-btn {
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,166,35,0.4);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+}
+.embed-retry-btn:hover { background: rgba(245,166,35,0.2); }
+
+/* ── Fallback external links ── */
+.movie-stream-section { margin-top: 2px; }
 .movie-stream-label {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   color: var(--muted2);
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.movie-stream-label::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 .movie-stream-btns {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 }
+@media (max-width: 400px) { .movie-stream-btns { grid-template-columns: 1fr; } }
 .stream-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: var(--card);
   border: 1px solid var(--border-m);
-  border-radius: 10px;
-  padding: 11px 14px;
+  border-radius: 9px;
+  padding: 9px 11px;
   cursor: pointer;
   transition: all 0.2s;
   text-decoration: none;
   color: var(--text);
-  width: 100%;
   font-family: 'Inter', sans-serif;
 }
 .stream-btn:hover { border-color: var(--border-s); background: var(--card-h); }
-.stream-btn-icon { font-size: 20px; flex-shrink: 0; }
-.stream-btn-info { flex: 1; text-align: left; }
-.stream-btn-name { font-size: 12px; font-weight: 600; color: var(--text); }
-.stream-btn-sub { font-size: 10px; color: var(--muted); margin-top: 1px; }
-.stream-btn-arrow { color: var(--muted2); font-size: 14px; }
+.stream-btn-icon { font-size: 18px; flex-shrink: 0; }
+.stream-btn-info { flex: 1; min-width: 0; }
+.stream-btn-name { font-size: 11px; font-weight: 700; color: var(--text); }
+.stream-btn-sub { font-size: 9px; color: var(--muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stream-btn-arrow { color: var(--muted2); font-size: 12px; flex-shrink: 0; }
 
 .movie-no-results {
   text-align: center;
@@ -1127,138 +1421,866 @@ video {
   animation: spin 0.8s linear infinite;
 }
 
-/* ── Movie Embed Player ── */
-.movie-player-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 12px;
-  overflow: visible;
-  margin-bottom: 14px;
-  border: 1px solid var(--border-m);
-}
-.movie-player-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  border-radius: 12px;
-}
-/* Fullscreen button over the embed player */
-.movie-embed-fs-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.65);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
+/* ═══════════════════════════════════════
+   BOTTOM NAVIGATION BAR
+═══════════════════════════════════════ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 600;
+  background: rgba(6,10,16,0.97);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border-top: 1px solid var(--border-m);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  z-index: 20;
-  opacity: 0;
-  pointer-events: none;
+  align-items: stretch;
+  height: 60px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.movie-player-wrap:hover .movie-embed-fs-btn {
-  opacity: 1;
-  pointer-events: auto;
-}
-.movie-embed-fs-btn:hover {
-  background: rgba(245,166,35,0.35);
-  border-color: var(--gold);
-  color: var(--gold);
-}
-/* Server row styling tweak */
-.movie-src-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-.movie-src-label {
-  font-size: 9px;
-  color: var(--muted2);
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-.movie-player-loading {
+.bottom-nav::before {
+  content: '';
   position: absolute;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(245,166,35,0.22) 30%, rgba(34,211,238,0.14) 70%, transparent 100%);
+}
+
+.bnav-item {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  background: #000;
+  gap: 3px;
+  cursor: pointer;
   color: var(--muted);
-  font-size: 12px;
-  pointer-events: none;
-  transition: opacity 0.4s;
+  transition: all 0.2s;
+  border: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  padding: 6px 4px;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
-.movie-player-loading.hide { opacity: 0; }
-.movie-player-loading .mini-spinner {
-  width: 28px; height: 28px;
-  border: 2px solid rgba(245,166,35,0.15);
-  border-top-color: var(--gold);
+.bnav-item::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 25%; right: 25%;
+  height: 2px;
+  border-radius: 0 0 3px 3px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.bnav-item.active { color: var(--gold); }
+.bnav-item.active::after { opacity: 1; }
+.bnav-item:active { transform: scale(0.92); }
+.bnav-item .bnav-icon {
+  font-size: 19px; line-height: 1;
+  transition: transform 0.2s;
+}
+.bnav-item.active .bnav-icon { transform: scale(1.12); }
+.bnav-item .bnav-label {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 1;
+}
+/* Center FAB button */
+.bnav-item.bnav-fab {
+  flex: 0 0 60px;
+  position: relative;
+  top: -16px;
+}
+.bnav-fab-circle {
+  width: 46px; height: 46px;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 18px rgba(245,166,35,0.4), 0 0 0 3px rgba(6,10,16,0.9), 0 0 0 4px rgba(245,166,35,0.15);
+  transition: all 0.2s;
+}
+.bnav-item.bnav-fab:active .bnav-fab-circle {
+  transform: scale(0.9);
+  box-shadow: 0 2px 10px rgba(245,166,35,0.3);
+}
+.bnav-item.bnav-fab .bnav-label { color: var(--gold); margin-top: 2px; }
+
+/* Add bottom padding to content so nav doesn't cover it */
+.channels { padding-bottom: 80px !important; }
+#movie-section { padding-bottom: 80px; }
+
+/* ═══════════════════════════════════════
+   CATEGORY DRAWER (slide-up)
+═══════════════════════════════════════ */
+.cat-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.cat-drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.cat-drawer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  border-top: 1px solid var(--border-m);
+  padding: 0 0 env(safe-area-inset-bottom, 16px);
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.cat-drawer-overlay.open .cat-drawer { transform: translateY(0); }
+
+.cat-drawer-handle {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  background: var(--muted2);
+  margin: 12px auto 0;
+  opacity: 0.5;
+}
+.cat-drawer-header {
+  padding: 14px 18px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.cat-drawer-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--text);
+}
+.cat-drawer-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cat-drawer-close {
+  background: rgba(148,163,184,0.08);
+  border: 1px solid var(--border-m);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.cat-drawer-close:hover { color: var(--text); border-color: var(--border-s); }
+
+/* Section label inside drawer */
+.cat-drawer-section {
+  padding: 12px 16px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted2);
 }
 
-/* Play button (before embed loads) */
-.movie-play-btn {
+/* Category button grid */
+.cat-drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 0 14px 10px;
+}
+@media (min-width: 480px) { .cat-drawer-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.cat-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-btn:active { transform: scale(0.95); }
+.cat-btn.active {
+  background: var(--gold-dim);
+  border-color: rgba(245,166,35,0.45);
+}
+.cat-btn-icon { font-size: 22px; line-height: 1; }
+.cat-btn-name {
+  font-size: 10px; font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.cat-btn.active .cat-btn-name { color: var(--gold); }
+.cat-btn-count {
+  font-size: 8.5px; color: var(--muted2);
+  font-weight: 500;
+  background: rgba(148,163,184,0.06);
+  border-radius: 10px;
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+}
+.cat-btn.active .cat-btn-count {
+  color: var(--gold);
+  background: var(--gold-dim);
+  border-color: rgba(245,166,35,0.2);
+}
+
+/* Quick actions row */
+.cat-drawer-actions {
+  display: flex;
+  gap: 8px;
+  padding: 6px 14px 16px;
+}
+.cat-action-btn {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border-m);
+  border-radius: 12px;
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  background: linear-gradient(135deg, var(--gold-dim), rgba(34,211,238,0.08));
-  border: 1px solid rgba(245,166,35,0.4);
-  border-radius: 10px;
-  padding: 13px;
-  color: var(--gold);
-  font-size: 14px;
-  font-weight: 700;
   cursor: pointer;
-  margin-bottom: 14px;
-  transition: all 0.2s;
   font-family: 'Inter', sans-serif;
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
-.movie-play-btn:hover {
-  background: linear-gradient(135deg, rgba(245,166,35,0.2), rgba(34,211,238,0.12));
-  box-shadow: 0 0 20px rgba(245,166,35,0.15);
+.cat-action-btn:hover { color: var(--text); border-color: var(--border-s); }
+.cat-action-btn:active { transform: scale(0.96); }
+.cat-action-btn.gold {
+  background: var(--gold-dim);
+  border-color: rgba(245,166,35,0.35);
+  color: var(--gold);
 }
-.movie-play-btn .play-icon { font-size: 20px; }
+.cat-action-btn.teal {
+  background: var(--teal-dim);
+  border-color: rgba(34,211,238,0.25);
+  color: var(--teal);
+}
 
-/* Source switcher */
-.movie-src-btn {
-  background: var(--card);
+/* ═══════════════════════════════════════
+   QUICK SEARCH OVERLAY
+═══════════════════════════════════════ */
+.qs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 14px 80px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.qs-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.qs-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.qs-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1.5px solid rgba(245,166,35,0.35);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 15px;
+  padding: 12px 16px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+.qs-input::placeholder { color: var(--muted2); }
+.qs-close-btn {
+  background: rgba(148,163,184,0.08);
   border: 1px solid var(--border-m);
   color: var(--muted);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.qs-close-btn:hover { color: var(--text); }
+.qs-hint {
   font-size: 10px;
-  font-weight: 600;
-  padding: 4px 10px;
+  color: var(--muted2);
+  letter-spacing: 0.4px;
+  margin-bottom: 12px;
+  padding: 0 2px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.qs-hint-tag {
+  background: rgba(148,163,184,0.06);
+  border: 1px solid var(--border);
   border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.qs-hint-tag:hover { color: var(--gold); border-color: rgba(245,166,35,0.3); }
+
+.qs-results {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted2) transparent;
+}
+.qs-result-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 13px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
   cursor: pointer;
   transition: all 0.18s;
+  animation: cardIn 0.25s ease both;
+  -webkit-tap-highlight-color: transparent;
+}
+.qs-result-item:hover {
+  border-color: var(--border-s);
+  background: var(--card-h);
+}
+.qs-result-item:active { transform: scale(0.98); }
+.qs-result-logo {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.04);
+  padding: 3px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.qs-result-logo-ph {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,166,35,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800;
+  color: var(--gold);
+  flex-shrink: 0;
+  font-family: 'Bebas Neue', sans-serif;
+}
+.qs-result-info { flex: 1; min-width: 0; }
+.qs-result-name {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.qs-result-cat {
+  font-size: 9px; color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.qs-result-badge {
+  font-size: 7px; font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(16,185,129,0.2);
+  flex-shrink: 0;
+  letter-spacing: 0.8px;
+}
+.qs-result-badge.movie {
+  background: rgba(139,92,246,0.1);
+  color: #a78bfa;
+  border-color: rgba(139,92,246,0.25);
+}
+.qs-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.qs-empty .icon { font-size: 36px; margin-bottom: 10px; }
+.qs-section-label {
+  font-size: 9px; font-weight: 700;
+  color: var(--muted2);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 4px 4px;
+}
+
+/* ═══════════════════════════════════════
+   SCROLL-TO-TOP BUTTON
+═══════════════════════════════════════ */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 76px; right: 14px;
+  z-index: 550;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(11,18,32,0.95);
+  border: 1px solid var(--border-m);
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  transition: all 0.22s;
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+  pointer-events: none;
   font-family: 'Inter', sans-serif;
+  line-height: 1;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.scroll-top-btn:hover {
+  color: var(--gold);
+  border-color: rgba(245,166,35,0.4);
+  background: rgba(245,166,35,0.08);
+}
+.scroll-top-btn:active { transform: scale(0.9); }
+
+/* ═══════════════════════════════════════
+   AD BLOCK — SKIP OVERLAY & TOAST
+═══════════════════════════════════════ */
+.ad-skip-bar {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6,10,16,0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-m);
+  border-radius: 10px;
+  padding: 7px 10px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  pointer-events: auto;
+}
+.ad-skip-bar.ready {
+  border-color: rgba(245,166,35,0.4);
+  color: var(--text);
+}
+.ad-skip-countdown {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+  min-width: 16px;
+  text-align: center;
+}
+.ad-skip-btn {
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,166,35,0.5);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.4px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.ad-skip-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+}
+.ad-skip-btn:not(:disabled):hover {
+  background: rgba(245,166,35,0.22);
+}
+.ad-skip-btn:not(:disabled):active { transform: scale(0.95); }
+
+/* Popup-blocked toast */
+.popup-toast {
+  position: fixed;
+  top: 64px; left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+  z-index: 9000;
+  background: rgba(16,185,129,0.14);
+  border: 1px solid rgba(16,185,129,0.35);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.22s, transform 0.22s;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.popup-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.kbd-hint {
+  display: none;
+}
+@media (min-width: 900px) {
+  .kbd-hint {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .kbd-key {
+    font-size: 9px;
+    color: var(--muted2);
+    background: rgba(148,163,184,0.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+  }
+  /* hide bottom nav on desktop, show header nav only */
+  .bottom-nav { display: none; }
+  .channels { padding-bottom: 16px !important; }
+  #movie-section { padding-bottom: 40px; }
+}
+
+/* ═══════════════════════════════════════
+   রিয়াদ ভাই FLOATING BUTTON
+═══════════════════════════════════════ */
+.riyad-fab {
+  position: fixed;
+  bottom: 80px; left: 14px;
+  z-index: 549;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #1a2a1a 0%, #0f1f0f 100%);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.5), 0 0 0 2px rgba(16,185,129,0.35), 0 0 14px rgba(16,185,129,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+  -webkit-tap-highlight-color: transparent;
+  animation: fabPulse 3s ease-in-out infinite;
+}
+@keyframes fabPulse {
+  0%,100% { box-shadow: 0 4px 18px rgba(0,0,0,0.5), 0 0 0 2px rgba(16,185,129,0.35), 0 0 14px rgba(16,185,129,0.2); }
+  50%      { box-shadow: 0 4px 22px rgba(0,0,0,0.5), 0 0 0 3px rgba(16,185,129,0.55), 0 0 24px rgba(16,185,129,0.35); }
+}
+.riyad-fab:hover  { transform: scale(1.1); }
+.riyad-fab:active { transform: scale(0.92); }
+@media (min-width: 900px) {
+  .riyad-fab { bottom: 24px; left: 24px; }
+}
+
+/* ═══════════════════════════════════════
+   রিয়াদ INFO DRAWER
+═══════════════════════════════════════ */
+.riyad-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.riyad-drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.riyad-drawer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  border-top: 1px solid rgba(16,185,129,0.22);
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  transform: translateY(100%);
+  transition: transform 0.34s cubic-bezier(0.32,0.72,0,1);
+  max-height: 88vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.riyad-drawer::-webkit-scrollbar { display: none; }
+.riyad-drawer-overlay.open .riyad-drawer { transform: translateY(0); }
+
+/* Drawer handle */
+.riyad-drawer-handle {
+  width: 38px; height: 4px;
+  border-radius: 2px;
+  background: var(--muted2);
+  margin: 12px auto 0;
+  opacity: 0.45;
+}
+
+/* Profile header */
+.riyad-profile-header {
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.riyad-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(34,211,238,0.12));
+  border: 2px solid rgba(16,185,129,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(16,185,129,0.2);
+}
+.riyad-profile-info { flex: 1; min-width: 0; }
+.riyad-profile-name {
+  font-size: 17px; font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+.riyad-profile-name em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.riyad-profile-sub {
+  font-size: 11px; color: var(--muted);
+  margin-top: 3px; letter-spacing: 0.3px;
+}
+.riyad-verified {
+  font-size: 9px; font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(16,185,129,0.22);
+  letter-spacing: 0.8px;
+  margin-top: 5px;
+  display: inline-block;
+}
+.riyad-drawer-close {
+  position: absolute; top: 14px; right: 16px;
+  background: rgba(148,163,184,0.08);
+  border: 1px solid var(--border-m);
+  color: var(--muted); font-size: 15px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.riyad-drawer-close:hover { color: var(--text); background: rgba(148,163,184,0.14); }
+
+/* About section */
+.riyad-about {
+  padding: 14px 20px;
+  font-size: 13px; line-height: 1.65;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.riyad-about strong { color: var(--text); font-weight: 600; }
+
+/* Contact buttons */
+.riyad-contact-section {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.riyad-contact-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.riyad-contact-btns {
+  display: flex; gap: 10px;
+}
+.riyad-contact-btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px; font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.2px;
+}
+.riyad-btn-call {
+  background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(16,185,129,0.10));
+  border: 1px solid rgba(16,185,129,0.35);
+  color: var(--green);
+}
+.riyad-btn-call:hover {
+  background: rgba(16,185,129,0.24);
+  box-shadow: 0 0 16px rgba(16,185,129,0.2);
+}
+.riyad-btn-wa {
+  background: linear-gradient(135deg, rgba(37,211,102,0.18), rgba(37,211,102,0.10));
+  border: 1px solid rgba(37,211,102,0.35);
+  color: #25d366;
+}
+.riyad-btn-wa:hover {
+  background: rgba(37,211,102,0.24);
+  box-shadow: 0 0 16px rgba(37,211,102,0.2);
+}
+.riyad-contact-btn span { font-size: 18px; line-height: 1; }
+
+/* Number display */
+.riyad-number-row {
+  display: flex; gap: 8px; margin-top: 10px;
+}
+.riyad-number-chip {
+  flex: 1;
+  background: rgba(148,163,184,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12px; font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.5px;
+  font-family: monospace;
+}
+
+/* ── AD FEED ── */
+.riyad-ads-section {
+  padding: 14px 20px 6px;
+}
+.riyad-ads-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--muted2);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.riyad-ad-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  transition: all 0.22s;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+.riyad-ad-card:hover {
+  border-color: var(--border-s);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+.riyad-ad-card:active { transform: scale(0.98); }
+/* Image-only card */
+.riyad-ad-img-wrap {
+  width: 100%; aspect-ratio: 16/7; overflow: hidden;
+  background: var(--surface2);
+  position: relative;
+}
+.riyad-ad-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.riyad-ad-img-wrap .ad-overlay-tag {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 8px; font-weight: 800; letter-spacing: 1px;
+  background: rgba(6,10,16,0.82); color: var(--muted2);
+  padding: 3px 7px; border-radius: 6px;
+  border: 1px solid var(--border);
+}
+/* Text + Image card */
+.riyad-ad-body {
+  padding: 12px 14px;
+  display: flex; gap: 12px; align-items: center;
+}
+.riyad-ad-thumb {
+  width: 56px; height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.riyad-ad-text { flex: 1; min-width: 0; }
+.riyad-ad-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.riyad-ad-desc {
+  font-size: 11px; color: var(--muted);
+  margin-top: 3px; line-height: 1.45;
+}
+.riyad-ad-cta {
+  font-size: 10px; font-weight: 700;
+  color: var(--gold);
+  margin-top: 6px;
+  display: inline-flex; align-items: center; gap: 3px;
   letter-spacing: 0.3px;
 }
-.movie-src-btn:hover { color: var(--text); border-color: var(--border-s); }
-.movie-src-btn.active {
-  background: var(--gold-dim);
-  border-color: rgba(245,166,35,0.4);
-  color: var(--gold);
+/* Promo tag badge */
+.riyad-ad-badge {
+  display: inline-block;
+  font-size: 8px; font-weight: 800; letter-spacing: 0.8px;
+  padding: 2px 7px; border-radius: 20px;
+  background: var(--gold-dim); color: var(--gold);
+  border: 1px solid rgba(245,166,35,0.22);
+  margin-bottom: 5px;
+  text-transform: uppercase;
 }
 </style>
 </head>
@@ -1300,6 +2322,12 @@ video {
   <div class="header-nav">
     <button class="nav-btn active" id="nav-live" onclick="showSection('live')">📺 লাইভ</button>
     <button class="nav-btn" id="nav-movies" onclick="showSection('movies')">🎬 মুভি</button>
+    <button class="nav-btn" onclick="toggleSearchOverlay()" title="খোঁজ করুন (/)">🔍</button>
+  </div>
+  <div class="kbd-hint">
+    <span class="kbd-key">1</span><span style="font-size:9px;color:var(--muted2)">লাইভ</span>
+    <span class="kbd-key">2</span><span style="font-size:9px;color:var(--muted2)">মুভি</span>
+    <span class="kbd-key">/</span><span style="font-size:9px;color:var(--muted2)">খোঁজ</span>
   </div>
 </div>
 
@@ -1356,9 +2384,25 @@ video {
     <div class="movie-hero-title">🎬 Riyad<em>Movies</em></div>
     <div class="movie-search-row">
       <input class="movie-search-input" id="movie-search-input"
-             type="text" placeholder="Movie নাম লিখুন… (Bollywood, Indian)"
+             type="text" placeholder="যেকোনো মুভি খুঁজুন… Bengali, Hindi, Tamil…"
              onkeydown="if(event.key==='Enter') searchMovies()" />
-      <button class="movie-search-btn" onclick="searchMovies()">খুঁজুন</button>
+      <button class="movie-search-btn" onclick="searchMovies()">🔍 খুঁজুন</button>
+    </div>
+  </div>
+
+  <!-- Language Tabs -->
+  <div class="movie-lang-bar" id="movie-lang-bar">
+    <div class="movie-ltab active" onclick="switchLang('hi')" id="ltab-hi">
+      <div class="movie-ltab-dot"></div>🎭 Bollywood
+    </div>
+    <div class="movie-ltab" onclick="switchLang('bn')" id="ltab-bn">
+      <div class="movie-ltab-dot"></div>🇧🇩 Bangla
+    </div>
+    <div class="movie-ltab" onclick="switchLang('ta')" id="ltab-ta">
+      <div class="movie-ltab-dot"></div>🌴 Tamil
+    </div>
+    <div class="movie-ltab" onclick="switchLang('te')" id="ltab-te">
+      <div class="movie-ltab-dot"></div>⭐ Telugu
     </div>
   </div>
 
@@ -1378,8 +2422,204 @@ video {
   </div>
 </div>
 
+<!-- Popup-blocked toast -->
+<div class="popup-toast" id="popup-toast">🛡️ বিজ্ঞাপন পপআপ ব্লক করা হয়েছে</div>
+
+<!-- ═══════════════════════════════════════════
+     BOTTOM NAVIGATION BAR
+═══════════════════════════════════════════ -->
+<nav class="bottom-nav" id="bottom-nav" role="navigation" aria-label="প্রধান নেভিগেশন">
+  <button class="bnav-item active" id="bnav-live" onclick="showSection('live')" aria-label="লাইভ টিভি">
+    <div class="bnav-icon">📺</div>
+    <div class="bnav-label">লাইভ</div>
+  </button>
+  <button class="bnav-item" id="bnav-search" onclick="toggleSearchOverlay()" aria-label="খুঁজুন">
+    <div class="bnav-icon">🔍</div>
+    <div class="bnav-label">খুঁজুন</div>
+  </button>
+  <!-- FAB: Center button -->
+  <button class="bnav-item bnav-fab" id="bnav-cats" onclick="toggleCatDrawer()" aria-label="বিভাগ">
+    <div class="bnav-fab-circle" id="bnav-fab-circle">☰</div>
+    <div class="bnav-label">বিভাগ</div>
+  </button>
+  <button class="bnav-item" id="bnav-movies" onclick="showSection('movies')" aria-label="মুভি">
+    <div class="bnav-icon">🎬</div>
+    <div class="bnav-label">মুভি</div>
+  </button>
+  <button class="bnav-item" id="bnav-top" onclick="scrollToTop()" aria-label="উপরে যান">
+    <div class="bnav-icon">⬆️</div>
+    <div class="bnav-label">উপরে</div>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     CATEGORY DRAWER
+═══════════════════════════════════════════ -->
+<div class="cat-drawer-overlay" id="cat-drawer-overlay" onclick="onDrawerOverlayClick(event)">
+  <div class="cat-drawer" id="cat-drawer">
+    <div class="cat-drawer-handle"></div>
+    <div class="cat-drawer-header">
+      <div class="cat-drawer-title">Riyad<em>TV</em> বিভাগ</div>
+      <button class="cat-drawer-close" onclick="closeCatDrawer()">✕</button>
+    </div>
+
+    <!-- Live section categories -->
+    <div id="cat-drawer-live-section">
+      <div class="cat-drawer-section">📺 চ্যানেল বিভাগ</div>
+      <div class="cat-drawer-grid" id="cat-drawer-grid"></div>
+    </div>
+
+    <!-- Movie section categories (hidden when on live) -->
+    <div id="cat-drawer-movie-section" style="display:none">
+      <div class="cat-drawer-section">🎬 মুভি ভাষা</div>
+      <div class="cat-drawer-grid" id="cat-drawer-lang-grid"></div>
+      <div class="cat-drawer-section">🎭 ধরন</div>
+      <div class="cat-drawer-grid" id="cat-drawer-genre-grid"></div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="cat-drawer-actions">
+      <button class="cat-action-btn gold" onclick="showSection('live');closeCatDrawer()">
+        📺 লাইভ টিভি
+      </button>
+      <button class="cat-action-btn teal" onclick="showSection('movies');closeCatDrawer()">
+        🎬 মুভি
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     QUICK SEARCH OVERLAY
+═══════════════════════════════════════════ -->
+<div class="qs-overlay" id="qs-overlay">
+  <div class="qs-top">
+    <input class="qs-input" id="qs-input"
+           type="search" autocomplete="off" spellcheck="false"
+           placeholder="চ্যানেল বা মুভি খুঁজুন…"
+           oninput="onQsInput(this.value)"
+           onkeydown="if(event.key==='Escape'){closeQuickSearch();event.preventDefault()}" />
+    <button class="qs-close-btn" onclick="closeQuickSearch()">✕</button>
+  </div>
+  <div class="qs-hint" id="qs-hint">
+    <span class="qs-hint-tag" onclick="quickFill('Somoy TV')">Somoy TV</span>
+    <span class="qs-hint-tag" onclick="quickFill('T Sports')">T Sports</span>
+    <span class="qs-hint-tag" onclick="quickFill('NTV')">NTV</span>
+    <span class="qs-hint-tag" onclick="quickFill('Bollywood')">Bollywood</span>
+    <span class="qs-hint-tag" onclick="quickFill('Action')">Action</span>
+  </div>
+  <div class="qs-results" id="qs-results"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCROLL TO TOP BUTTON
+═══════════════════════════════════════════ -->
+<button class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()" title="উপরে যান">↑</button>
+
+<!-- ═══════════════════════════════════════════
+     রিয়াদ ভাই FLOATING BUTTON
+═══════════════════════════════════════════ -->
+<button class="riyad-fab" id="riyad-fab" onclick="openRiyadDrawer()" title="রিয়াদ ভাই — যোগাযোগ">
+  👨‍💻
+</button>
+
+<!-- ═══════════════════════════════════════════
+     রিয়াদ ভাই INFO + AD DRAWER
+═══════════════════════════════════════════ -->
+<div class="riyad-drawer-overlay" id="riyad-drawer-overlay" onclick="onRiyadOverlayClick(event)">
+  <div class="riyad-drawer" id="riyad-drawer">
+    <div class="riyad-drawer-handle"></div>
+    <button class="riyad-drawer-close" onclick="closeRiyadDrawer()">✕</button>
+
+    <!-- Profile -->
+    <div class="riyad-profile-header">
+      <div class="riyad-avatar">👨‍💻</div>
+      <div class="riyad-profile-info">
+        <div class="riyad-profile-name">রিয়াদ <em>ভাই</em></div>
+        <div class="riyad-profile-sub">Riyad TV — প্রতিষ্ঠাতা ও পরিচালক</div>
+        <div class="riyad-verified">✔ ভেরিফাইড</div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="riyad-about">
+      <strong>রিয়াদ ভাই</strong> হলেন <strong>Riyad TV</strong>-এর প্রতিষ্ঠাতা। এই প্ল্যাটফর্মে বাংলাদেশের সেরা লাইভ চ্যানেল, খেলাধুলা, বিনোদন ও মুভি একসাথে পাওয়া যায়। যেকোনো সমস্যা বা পরামর্শের জন্য সরাসরি যোগাযোগ করুন।
+    </div>
+
+    <!-- Contact -->
+    <div class="riyad-contact-section">
+      <div class="riyad-contact-label">📞 যোগাযোগ করুন</div>
+      <div class="riyad-contact-btns">
+        <a class="riyad-contact-btn riyad-btn-call" href="tel:09658069371">
+          <span>📞</span> কল করুন
+        </a>
+        <a class="riyad-contact-btn riyad-btn-wa" href="https://wa.me/8801830334803" target="_blank" rel="noopener noreferrer">
+          <span>💬</span> WhatsApp
+        </a>
+      </div>
+      <div class="riyad-number-row">
+        <div class="riyad-number-chip">📞 09658-069371</div>
+        <div class="riyad-number-chip">💬 01830-334803</div>
+      </div>
+    </div>
+
+    <!-- Ad Feed -->
+    <div class="riyad-ads-section">
+      <div class="riyad-ads-label">🌟 বিজ্ঞাপন ও অফার</div>
+
+      <!-- Ad Card 1: Image Banner -->
+      <a class="riyad-ad-card" href="tel:09658069371" id="riyad-ad-1">
+        <div class="riyad-ad-img-wrap">
+          <img src="https://i.imgur.com/placeholder1.png"
+               onerror="this.closest('.riyad-ad-img-wrap').style.background='linear-gradient(135deg,rgba(245,166,35,0.15),rgba(34,211,238,0.08))'; this.style.display='none'; this.nextElementSibling.style.display='flex'"
+               alt="Ad Banner 1">
+          <div style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+            <div style="font-size:32px">📢</div>
+            <div style="font-size:13px;font-weight:700;color:var(--gold)">আপনার বিজ্ঞাপন এখানে</div>
+            <div style="font-size:11px;color:var(--muted)">যোগাযোগ: 09658-069371</div>
+          </div>
+          <div class="ad-overlay-tag">বিজ্ঞাপন</div>
+        </div>
+      </a>
+
+      <!-- Ad Card 2: Mixed Text + Image -->
+      <a class="riyad-ad-card" href="https://wa.me/8801830334803" target="_blank" rel="noopener noreferrer" id="riyad-ad-2">
+        <div class="riyad-ad-body">
+          <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,rgba(245,166,35,0.18),rgba(34,211,238,0.1));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🎯</div>
+          <div class="riyad-ad-text">
+            <div class="riyad-ad-badge">প্রিমিয়াম স্লট</div>
+            <div class="riyad-ad-title">আপনার ব্যবসার বিজ্ঞাপন দিন</div>
+            <div class="riyad-ad-desc">Riyad TV-তে হাজারো দর্শকের কাছে পৌঁছান। সাশ্রয়ী মূল্যে প্রচার করুন।</div>
+            <div class="riyad-ad-cta">WhatsApp করুন ↗</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Ad Card 3: Mixed Text + Image -->
+      <a class="riyad-ad-card" href="tel:09658069371" id="riyad-ad-3">
+        <div class="riyad-ad-body">
+          <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,rgba(16,185,129,0.18),rgba(34,211,238,0.1));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">💡</div>
+          <div class="riyad-ad-text">
+            <div class="riyad-ad-badge">অফার</div>
+            <div class="riyad-ad-title">স্পেশাল অফার স্লট ফাঁকা আছে</div>
+            <div class="riyad-ad-desc">এই স্লটে আপনার পণ্য বা সেবার প্রচার করুন। সীমিত সুযোগ।</div>
+            <div class="riyad-ad-cta">এখনই কল করুন ↗</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
 <script>
 const CHANNELS = [
+  // ═══ ফিচার্ড ═══
+  { name:"FIFA World Cup 🏆", cat:"খেলাধুলা",
+    url:"https://sportslivetoday.com/?currentTagId=4186762757372631736&currentTagName=FIFA+World+Cup&from=home_top_tab&utm_source=app_inner_share",
+    backup:[], external:true,
+    logo:"https://upload.wikimedia.org/wikipedia/en/thumb/6/67/2026_FIFA_World_Cup_emblem.svg/200px-2026_FIFA_World_Cup_emblem.svg.png" },
+
   // ═══ সরকারি ═══
   { name:"BTV", cat:"সরকারি",
     url:"https://owrcovcrpy.gpcdn.net/bpk-tv/1709/output/index.m3u8",
@@ -1559,13 +2799,17 @@ function buildGrid() {
     const logoHtml = ch.logo
       ? `<img class="ch-logo" src="${ch.logo}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><div class="ch-logo-placeholder" style="display:none">${getInitials(ch.name)}</div>`
       : `<div class="ch-logo-placeholder">${getInitials(ch.name)}</div>`;
-    return `<div class="ch-card${sel?' selected':''}" onclick="playChannel(${realIdx})" style="animation-delay:${(list.indexOf(ch)*0.03).toFixed(2)}s">
+    const isFifa = ch.name.includes("FIFA");
+    return `<div class="ch-card${sel?' selected':''}${isFifa?' fifa-highlight':''}" onclick="playChannel(${realIdx})" style="animation-delay:${(list.indexOf(ch)*0.03).toFixed(2)}s">
       ${logoHtml}
       <div class="ch-info">
         <div class="ch-name">${ch.name}</div>
         <div class="ch-cat">${ch.cat}</div>
       </div>
-      <div class="ch-badge">LIVE</div>
+      ${isFifa
+        ? `<div class="fifa-right"><div class="fifa-badge">🏆 HOT</div><div class="fifa-ext-tag">↗ নতুন ট্যাবে খুলবে</div></div>`
+        : `<div class="ch-badge" style="${ch.external ? 'background:var(--gold-dim);color:var(--gold);border-color:rgba(245,166,35,0.25)' : ''}">${ch.external ? '↗ LINK' : 'LIVE'}</div>`
+      }
     </div>`;
   }).join("");
 }
@@ -1641,9 +2885,14 @@ function showNowPlaying(ch) {
 function retry() { if (currentIdx >= 0) playChannel(currentIdx); }
 
 function playChannel(idx, onReady) {
+  const ch = CHANNELS[idx];
+  // External link channels — open in new tab, no HLS playback
+  if (ch.external) {
+    window.open(ch.url, "_blank", "noopener,noreferrer");
+    return;
+  }
   if (idx === currentIdx && hlsInstance && !onReady) return;
   currentIdx = idx;
-  const ch = CHANNELS[idx];
   errBanner.classList.remove("show");
   resetQuality();
   if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
@@ -1737,68 +2986,528 @@ function safeDismissSplash() {
   splash.classList.add("hidden");
 }
 const splashTimeout = setTimeout(safeDismissSplash, 4000);
-playChannel(0, () => { clearTimeout(splashTimeout); safeDismissSplash(); });
+// FIFA (index 0) is external — auto-play BTV (index 1) as default
+const defaultIdx = CHANNELS[0].external ? 1 : 0;
+playChannel(defaultIdx, () => { clearTimeout(splashTimeout); safeDismissSplash(); });
 
 /* ══════════════════════════════════════════
-   MOVIE SECTION — TMDB powered
+   MOVIE SECTION — TMDB + Auto-Failover Player
 ══════════════════════════════════════════ */
-const TMDB_KEY = "137d31fac9d780136522a8c9ae1e21a6";
+const TMDB_KEY  = "137d31fac9d780136522a8c9ae1e21a6";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMG  = "https://image.tmdb.org/t/p/w342";
-const TMDB_BIG  = "https://image.tmdb.org/t/p/w780";
+
+/* ── Language definitions ── */
+const MOVIE_LANGS = {
+  hi: { label:"🎭 Bollywood", langName:"Hindi",   searchHint:"Bollywood, Hindi মুভি খুঁজুন…" },
+  bn: { label:"🇧🇩 Bangla",   langName:"Bengali",  searchHint:"বাংলা মুভি খুঁজুন…" },
+  ta: { label:"🌴 Tamil",     langName:"Tamil",    searchHint:"Tamil মুভি খুঁজুন…" },
+  te: { label:"⭐ Telugu",    langName:"Telugu",   searchHint:"Telugu মুভি খুঁজুন…" },
+};
 
 const MOVIE_GENRES = [
-  { id:"all",   name:"সব" },
-  { id:28,      name:"Action" },
-  { id:35,      name:"Comedy" },
-  { id:18,      name:"Drama" },
-  { id:10749,   name:"Romance" },
-  { id:28,      name:"Thriller", extra:53 },
-  { id:27,      name:"Horror" },
-  { id:12,      name:"Adventure" },
-  { id:10751,   name:"Family" },
+  { id:"all",  name:"সব" },
+  { id:28,     name:"Action" },
+  { id:35,     name:"Comedy" },
+  { id:18,     name:"Drama" },
+  { id:10749,  name:"Romance" },
+  { id:53,     name:"Thriller" },
+  { id:27,     name:"Horror" },
+  { id:12,     name:"Adventure" },
+  { id:10751,  name:"Family" },
 ];
 
-// Embed sources for in-page movie player
-const EMBED_SOURCES = [
-  { id:"vidsrc",       name:"Server 1", fn: (id) => `https://vidsrc.to/embed/movie/${id}` },
-  { id:"vidsrc2",      name:"Server 2", fn: (id) => `https://vidsrc.cc/v2/embed/movie/${id}` },
-  { id:"smashystream", name:"Server 3", fn: (id) => `https://embed.smashystream.com/playere.php?tmdb=${id}` },
-  { id:"autoembed",    name:"Server 4", fn: (id) => `https://player.autoembed.cc/embed/movie/${id}` },
+/* ── 6 embed servers — auto-failover (South-Asian optimised) ── */
+const EMBED_SERVERS = [
+  { name:"Server 1", fn: id => `https://vidsrc.me/embed/movie?tmdb=${id}` },
+  { name:"Server 2", fn: id => `https://moviesapi.club/movie/${id}` },
+  { name:"Server 3", fn: id => `https://vidsrc.cc/v2/embed/movie/${id}` },
+  { name:"Server 4", fn: id => `https://player.videasy.net/movie/${id}` },
+  { name:"Server 5", fn: id => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
+  { name:"Server 6", fn: id => `https://player.autoembed.cc/embed/movie/${id}` },
 ];
 
-// Fallback external links
+/* ── Fallback external links — language-aware ── */
 const STREAM_PLATFORMS = [
-  { name:"YouTube",   icon:"🔴", url:"https://www.youtube.com/results?search_query={title}+full+movie", sub:"Free on YouTube" },
-  { name:"JioCinema", icon:"🟣", url:"https://www.jiocinema.com/search?q={title}", sub:"Free · Bollywood & Hindi" },
-  { name:"Hotstar",   icon:"🔵", url:"https://www.hotstar.com/in/search?q={title}", sub:"Disney+ Hotstar" },
-  { name:"MX Player", icon:"🟠", url:"https://www.mxplayer.in/search?query={title}", sub:"Free streaming" },
+  { name:"JustWatch", icon:"🍿", url:"https://www.justwatch.com/in/movie/{slug}",                          sub:"Exact movie page",    langs:null },
+  { name:"YouTube",   icon:"🔴", url:"https://www.youtube.com/results?search_query={title}+full+movie",  sub:"Free · YouTube",      langs:null },
+  { name:"ZEE5",      icon:"🟤", url:"https://www.zee5.com/search?q={title}",                            sub:"Hindi/Bangla/Tamil",  langs:["hi","bn","ta","te"] },
+  { name:"Hoichoi",   icon:"🟡", url:"https://www.hoichoi.tv/search?query={title}",                      sub:"Bangla Streaming",    langs:["bn"] },
+  { name:"Chorki",    icon:"🟢", url:"https://www.chorki.com/search/{title}",                            sub:"Bangla OTT",          langs:["bn"] },
+  { name:"Aha",       icon:"🔷", url:"https://www.aha.video/search?q={title}",                           sub:"Telugu · Tamil",      langs:["te","ta"] },
+  { name:"Sun NXT",   icon:"🌞", url:"https://www.sunnxt.com/search?q={title}",                          sub:"Tamil · Telugu",      langs:["ta","te"] },
+  { name:"JioCinema", icon:"🟣", url:"https://www.jiocinema.com/search?q={title}",                       sub:"Free · Bollywood",    langs:["hi","en"] },
+  { name:"Hotstar",   icon:"🔵", url:"https://www.hotstar.com/in/search?q={title}",                      sub:"Disney+ Hotstar",     langs:null },
+  { name:"MX Player", icon:"🟠", url:"https://www.mxplayer.in/search?query={title}",                     sub:"Free streaming",      langs:null },
 ];
 
+/* ── State ── */
+let activeLang    = "hi";
 let activeGenreId = "all";
 let movieSearchMode = false;
 let currentMovieList = [];
+let currentEmbedMovieId = null;
+let activeServerIdx = 0;
+let embedFailoverTimer = null;
+const SERVER_TIMEOUT_MS = 12000; // 12s দেরি হলে পরের সার্ভার
 
+/* ══ Section switch ══ */
+let activeSection = 'live';
 function showSection(sec) {
-  const liveEl = document.querySelector(".main-layout");
-  const movieEl = document.getElementById("movie-section");
-  const navLive = document.getElementById("nav-live");
-  const navMovies = document.getElementById("nav-movies");
-
+  activeSection = sec;
+  const liveEl   = document.querySelector(".main-layout");
+  const movieEl  = document.getElementById("movie-section");
+  const navLive  = document.getElementById("nav-live");
+  const navMovies= document.getElementById("nav-movies");
+  const bnavLive  = document.getElementById("bnav-live");
+  const bnavMovies= document.getElementById("bnav-movies");
   if (sec === "live") {
     liveEl.style.display = "";
     movieEl.classList.remove("visible");
     navLive.classList.add("active");
     navMovies.classList.remove("active");
+    if (bnavLive)  bnavLive.classList.add("active");
+    if (bnavMovies) bnavMovies.classList.remove("active");
+    updateCatDrawerContent();
   } else {
     liveEl.style.display = "none";
     movieEl.classList.add("visible");
     navLive.classList.remove("active");
     navMovies.classList.add("active");
+    if (bnavLive)  bnavLive.classList.remove("active");
+    if (bnavMovies) bnavMovies.classList.add("active");
     if (currentMovieList.length === 0) initMovies();
+    updateCatDrawerContent();
+  }
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ════════════════════════════════════════
+   BOTTOM NAV — CATEGORY DRAWER
+════════════════════════════════════════ */
+const CAT_ICONS = {
+  "সব": "🌐", "সরকারি": "🏛️", "সংবাদ": "📰", "বিনোদন": "🎭",
+  "খেলাধুলা": "⚽", "সংগীত": "🎵", "ধর্ম": "🕌", "শিশু": "👶"
+};
+
+function buildCatDrawerGrid() {
+  const grid = document.getElementById("cat-drawer-grid");
+  if (!grid) return;
+  const counts = {};
+  CHANNELS.forEach(c => { counts[c.cat] = (counts[c.cat] || 0) + 1; });
+  const cats = ["সব", ...new Set(CHANNELS.map(c => c.cat))];
+  grid.innerHTML = cats.map(cat => {
+    const icon = CAT_ICONS[cat] || "📺";
+    const count = cat === "সব" ? CHANNELS.length : (counts[cat] || 0);
+    const isActive = activeCat === cat;
+    return `<button class="cat-btn${isActive ? ' active' : ''}" onclick="onCatDrawerSelect('${cat}')">
+      <div class="cat-btn-icon">${icon}</div>
+      <div class="cat-btn-name">${cat}</div>
+      <div class="cat-btn-count">${count}</div>
+    </button>`;
+  }).join("");
+}
+
+function buildCatDrawerLangGrid() {
+  const grid = document.getElementById("cat-drawer-lang-grid");
+  if (!grid) return;
+  grid.innerHTML = Object.entries(MOVIE_LANGS).map(([code, info]) => {
+    const isActive = activeLang === code;
+    return `<button class="cat-btn${isActive ? ' active' : ''}" onclick="onLangDrawerSelect('${code}')">
+      <div class="cat-btn-icon">${info.label.split(' ')[0]}</div>
+      <div class="cat-btn-name" style="font-size:9px">${info.label.split(' ').slice(1).join(' ')}</div>
+    </button>`;
+  }).join("");
+}
+
+function buildCatDrawerGenreGrid() {
+  const grid = document.getElementById("cat-drawer-genre-grid");
+  if (!grid) return;
+  const GENRE_ICONS = {
+    "সব":"🌐","Action":"💥","Comedy":"😂","Drama":"🎭","Romance":"❤️",
+    "Thriller":"😱","Horror":"👻","Adventure":"🗺️","Family":"👨‍👩‍👧"
+  };
+  grid.innerHTML = MOVIE_GENRES.map(g => {
+    const isActive = activeGenreId == g.id;
+    const icon = GENRE_ICONS[g.name] || "🎬";
+    return `<button class="cat-btn${isActive ? ' active' : ''}" onclick="onGenreDrawerSelect('${g.id}')">
+      <div class="cat-btn-icon">${icon}</div>
+      <div class="cat-btn-name" style="font-size:9px">${g.name}</div>
+    </button>`;
+  }).join("");
+}
+
+function updateCatDrawerContent() {
+  const liveSection  = document.getElementById("cat-drawer-live-section");
+  const movieSection = document.getElementById("cat-drawer-movie-section");
+  if (activeSection === "live") {
+    if (liveSection)  liveSection.style.display = "";
+    if (movieSection) movieSection.style.display = "none";
+    buildCatDrawerGrid();
+  } else {
+    if (liveSection)  liveSection.style.display = "none";
+    if (movieSection) movieSection.style.display = "";
+    buildCatDrawerLangGrid();
+    buildCatDrawerGenreGrid();
   }
 }
 
+function toggleCatDrawer() {
+  const ov = document.getElementById("cat-drawer-overlay");
+  if (ov.classList.contains("open")) {
+    closeCatDrawer();
+  } else {
+    updateCatDrawerContent();
+    ov.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeCatDrawer() {
+  document.getElementById("cat-drawer-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function onDrawerOverlayClick(e) {
+  if (e.target === document.getElementById("cat-drawer-overlay")) closeCatDrawer();
+}
+
+function onCatDrawerSelect(cat) {
+  switchCat(cat);
+  closeCatDrawer();
+  // Scroll sidebar to top
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar) sidebar.scrollTop = 0;
+}
+
+function onLangDrawerSelect(lang) {
+  switchLang(lang);
+  buildCatDrawerLangGrid();
+  // Don't close — allow genre selection too
+}
+
+function onGenreDrawerSelect(gid) {
+  switchGenre(gid);
+  closeCatDrawer();
+}
+
+/* ════════════════════════════════════════
+   QUICK SEARCH OVERLAY
+════════════════════════════════════════ */
+let qsTimer = null;
+
+function toggleSearchOverlay() {
+  const ov = document.getElementById("qs-overlay");
+  if (ov.classList.contains("open")) {
+    closeQuickSearch();
+  } else {
+    ov.classList.add("open");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => {
+      const inp = document.getElementById("qs-input");
+      if (inp) { inp.value = ""; inp.focus(); }
+      renderQsEmpty("চ্যানেল বা মুভি খুঁজুন...");
+    }, 50);
+  }
+}
+
+function closeQuickSearch() {
+  document.getElementById("qs-overlay").classList.remove("open");
+  document.body.style.overflow = "";
+  clearTimeout(qsTimer);
+}
+
+function quickFill(text) {
+  const inp = document.getElementById("qs-input");
+  if (inp) { inp.value = text; inp.focus(); }
+  onQsInput(text);
+}
+
+function onQsInput(val) {
+  clearTimeout(qsTimer);
+  if (!val.trim()) { renderQsEmpty("চ্যানেল বা মুভি খুঁজুন..."); return; }
+  qsTimer = setTimeout(() => doQuickSearch(val.trim()), 200);
+}
+
+function renderQsEmpty(msg) {
+  document.getElementById("qs-results").innerHTML =
+    `<div class="qs-empty"><div class="icon">🔍</div>${msg}</div>`;
+}
+
+function doQuickSearch(q) {
+  const ql = q.toLowerCase();
+  const chanMatches = CHANNELS.filter(ch =>
+    ch.name.toLowerCase().includes(ql) || ch.cat.toLowerCase().includes(ql)
+  ).slice(0, 8);
+
+  let html = "";
+
+  if (chanMatches.length) {
+    html += `<div class="qs-section-label">📺 চ্যানেল (${chanMatches.length})</div>`;
+    chanMatches.forEach(ch => {
+      const idx = CHANNELS.indexOf(ch);
+      const logoHtml = ch.logo
+        ? `<img class="qs-result-logo" src="${ch.logo}" alt="${ch.name}" onerror="this.parentElement.innerHTML='<div class=\\"qs-result-logo-ph\\">${getInitials(ch.name)}</div>'">`
+        : `<div class="qs-result-logo-ph">${getInitials(ch.name)}</div>`;
+      html += `<div class="qs-result-item" onclick="selectQsChannel(${idx})">
+        ${logoHtml}
+        <div class="qs-result-info">
+          <div class="qs-result-name">${ch.name}</div>
+          <div class="qs-result-cat">${ch.cat}</div>
+        </div>
+        <div class="qs-result-badge">LIVE</div>
+      </div>`;
+    });
+  }
+
+  // Also search movies in current list
+  const movieMatches = currentMovieList.filter(m =>
+    (m.title || "").toLowerCase().includes(ql) ||
+    (m.original_title || "").toLowerCase().includes(ql)
+  ).slice(0, 5);
+
+  if (movieMatches.length) {
+    html += `<div class="qs-section-label">🎬 মুভি (${movieMatches.length})</div>`;
+    movieMatches.forEach(m => {
+      const poster = m.poster_path
+        ? `<img class="qs-result-logo" src="https://image.tmdb.org/t/p/w92${m.poster_path}" alt="${m.title}" style="border-radius:6px;aspect-ratio:2/3;width:28px;height:auto;padding:0">`
+        : `<div class="qs-result-logo-ph">🎬</div>`;
+      html += `<div class="qs-result-item" onclick="selectQsMovie(${m.id})">
+        ${poster}
+        <div class="qs-result-info">
+          <div class="qs-result-name">${m.title || m.original_title}</div>
+          <div class="qs-result-cat">${m.release_date ? m.release_date.slice(0,4) : ""}${m.vote_average ? " · ⭐ " + m.vote_average.toFixed(1) : ""}</div>
+        </div>
+        <div class="qs-result-badge movie">মুভি</div>
+      </div>`;
+    });
+  }
+
+  if (!html) {
+    html = `<div class="qs-empty"><div class="icon">😕</div>"${q}" পাওয়া যায়নি।</div>`;
+  }
+
+  document.getElementById("qs-results").innerHTML = html;
+}
+
+function selectQsChannel(idx) {
+  closeQuickSearch();
+  showSection("live");
+  setTimeout(() => playChannel(idx), 80);
+}
+
+function selectQsMovie(id) {
+  closeQuickSearch();
+  showSection("movies");
+  setTimeout(() => openMovieModal(id), 80);
+}
+
+/* ════════════════════════════════════════
+   SCROLL TO TOP
+════════════════════════════════════════ */
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Show/hide scroll-to-top button
+window.addEventListener("scroll", () => {
+  const btn = document.getElementById("scroll-top-btn");
+  if (btn) {
+    if (window.scrollY > 180) btn.classList.add("visible");
+    else btn.classList.remove("visible");
+  }
+}, { passive: true });
+
+/* ════════════════════════════════════════
+   AD BLOCKER — ALL 4 LAYERS
+════════════════════════════════════════ */
+
+/* ── LAYER 2: Smart window.open — block ad popups, allow player popups ──
+   Strategy: allow the FIRST popup after the iframe loads (that's the player
+   loading its stream), then block all subsequent ones (those are ads).
+   Also block popups opened by timers (ads use setTimeout, players don't). */
+(function() {
+  const _nativeOpen = window.open.bind(window);
+  let _playerPopupAllowed = false;   // flipped to true when iframe loads
+  let _popupCount = 0;
+  let _lastPopupTime = 0;
+
+  // Called by onEmbedLoad() to open a window for the first player popup
+  window._allowNextPopup = function() {
+    _playerPopupAllowed = true;
+    _popupCount = 0;
+    setTimeout(() => { _playerPopupAllowed = false; }, 4000); // 4s window
+  };
+
+  window.open = function(url, name, specs) {
+    // Always allow about:blank (internal player use)
+    if (!url || url === 'about:blank' || url === '') {
+      return _nativeOpen(url, name, specs);
+    }
+
+    const now = Date.now();
+    const timeSinceLast = now - _lastPopupTime;
+
+    // Allow if: player just loaded AND this is the first popup within 4s
+    if (_playerPopupAllowed && _popupCount === 0) {
+      _popupCount++;
+      _lastPopupTime = now;
+      _playerPopupAllowed = false;
+      return _nativeOpen(url, name, specs);
+    }
+
+    // Block rapid-fire popups (ads open multiple in quick succession)
+    if (timeSinceLast < 2000) {
+      showPopupBlockedToast();
+      return null;
+    }
+
+    // Block popups with ad-like URL patterns
+    const adPatterns = [/doubleclick/, /googlesyndication/, /adservice/, /popads/, /popcash/, /propellerads/, /adnxs/, /adskeeper/, /mgid/, /revcontent/, /taboola/, /outbrain/];
+    if (adPatterns.some(p => p.test(url))) {
+      showPopupBlockedToast();
+      return null;
+    }
+
+    // Block if too many popups already opened
+    if (_popupCount > 1) {
+      showPopupBlockedToast();
+      return null;
+    }
+
+    _popupCount++;
+    _lastPopupTime = now;
+    return _nativeOpen(url, name, specs);
+  };
+})();
+
+/* ── LAYER 3: Window-blur refocus trick ──
+   If a sneaky popup steals focus, immediately refocus the page */
+let _adBlurGuard = false;
+window.addEventListener('blur', () => {
+  if (_adBlurGuard) return;
+  // Only activate when movie modal is open (the iframe is visible)
+  const modalOpen = document.getElementById('movie-modal-overlay')?.classList.contains('open');
+  if (!modalOpen) return;
+  _adBlurGuard = true;
+  setTimeout(() => {
+    window.focus();
+    showPopupBlockedToast();
+    _adBlurGuard = false;
+  }, 80);
+});
+
+/* ── LAYER 3b: Block top-level navigation attempts ── */
+window.addEventListener('beforeunload', (e) => {
+  const modalOpen = document.getElementById('movie-modal-overlay')?.classList.contains('open');
+  if (modalOpen) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+/* ── Popup-blocked toast ── */
+let _toastTimer = null;
+function showPopupBlockedToast() {
+  const toast = document.getElementById('popup-toast');
+  if (!toast) return;
+  clearTimeout(_toastTimer);
+  toast.classList.add('show');
+  _toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+/* ── LAYER 4: Ad-skip countdown overlay ── */
+let _skipTimer = null;
+let _skipCountdown = 5;
+
+function startAdSkipCountdown() {
+  clearInterval(_skipTimer);
+  const bar = document.getElementById('ad-skip-bar');
+  const btn = document.getElementById('ad-skip-btn');
+  const num = document.getElementById('ad-skip-countdown');
+  if (!bar || !btn || !num) return;
+
+  _skipCountdown = 5;
+  bar.style.display = 'flex';
+  bar.classList.remove('ready');
+  btn.disabled = true;
+  num.textContent = _skipCountdown;
+
+  _skipTimer = setInterval(() => {
+    _skipCountdown--;
+    if (num) num.textContent = _skipCountdown;
+    if (_skipCountdown <= 0) {
+      clearInterval(_skipTimer);
+      if (btn) { btn.disabled = false; }
+      if (bar) { bar.classList.add('ready'); }
+      if (num) num.textContent = '✓';
+    }
+  }, 1000);
+}
+
+function stopAdSkipCountdown() {
+  clearInterval(_skipTimer);
+  const bar = document.getElementById('ad-skip-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+function dismissAdOverlay() {
+  // Blur + refocus the iframe to try to dismiss an ad overlay
+  const iframe = document.getElementById('embed-iframe');
+  if (iframe) {
+    iframe.blur();
+    setTimeout(() => { if (iframe) iframe.focus(); }, 50);
+  }
+  stopAdSkipCountdown();
+}
+
+/* ── Cleanup skip bar when modal closes ── */
+
+document.addEventListener("keydown", (e) => {
+  // Don't fire when typing in an input
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (e.key === "1") showSection("live");
+  else if (e.key === "2") showSection("movies");
+  else if (e.key === "/" || e.key === "s") { e.preventDefault(); toggleSearchOverlay(); }
+  else if (e.key === "Escape") {
+    closeQuickSearch();
+    closeCatDrawer();
+  }
+  else if (e.key === "ArrowUp" || e.key === "t") scrollToTop();
+  else if (e.key === "c") toggleCatDrawer();
+});
+
+/* ════════════════════════════════════════
+   SWIPE DOWN TO CLOSE DRAWER
+════════════════════════════════════════ */
+(function() {
+  let startY = 0;
+  const drawer = document.getElementById("cat-drawer");
+  if (!drawer) return;
+  drawer.addEventListener("touchstart", e => { startY = e.touches[0].clientY; }, { passive: true });
+  drawer.addEventListener("touchmove", e => {
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 60) closeCatDrawer();
+  }, { passive: true });
+})();
+
+
+/* ══ Language tab switch ══ */
+function switchLang(lang) {
+  activeLang    = lang;
+  activeGenreId = "all";
+  movieSearchMode = false;
+  document.getElementById("movie-search-input").value = "";
+  document.getElementById("movie-search-input").placeholder = MOVIE_LANGS[lang].searchHint;
+  // update tab active state
+  document.querySelectorAll(".movie-ltab").forEach(t => t.classList.remove("active"));
+  const tab = document.getElementById("ltab-" + lang);
+  if (tab) tab.classList.add("active");
+  buildGenreTabs();
+  loadMovies();
+}
+
+/* ══ Genre tabs ══ */
 function buildGenreTabs() {
   const el = document.getElementById("movie-genre-tabs");
   el.innerHTML = MOVIE_GENRES.map(g =>
@@ -1811,12 +3520,13 @@ function switchGenre(gid) {
   movieSearchMode = false;
   document.getElementById("movie-search-input").value = "";
   buildGenreTabs();
-  loadMoviesByGenre(gid);
+  loadMovies();
 }
 
+/* ══ Init ══ */
 async function initMovies() {
   buildGenreTabs();
-  await loadMoviesByGenre("all");
+  await loadMovies();
 }
 
 function showMovieLoading() {
@@ -1824,25 +3534,24 @@ function showMovieLoading() {
     `<div class="movie-loading"><div class="mini-spinner"></div>লোড হচ্ছে…</div>`;
 }
 
-async function loadMoviesByGenre(gid) {
+/* ══ Load movies by current language + genre ══ */
+async function loadMovies() {
   showMovieLoading();
   try {
-    let url;
-    if (gid === "all") {
-      url = `${TMDB_BASE}/discover/movie?api_key=${TMDB_KEY}&with_original_language=hi&sort_by=popularity.desc&page=1`;
-    } else {
-      url = `${TMDB_BASE}/discover/movie?api_key=${TMDB_KEY}&with_original_language=hi&with_genres=${gid}&sort_by=popularity.desc&page=1`;
-    }
+    let url = `${TMDB_BASE}/discover/movie?api_key=${TMDB_KEY}&with_original_language=${activeLang}&sort_by=popularity.desc&page=1`;
+    if (activeGenreId !== "all") url += `&with_genres=${activeGenreId}`;
     const res = await fetch(url);
     const data = await res.json();
     currentMovieList = data.results || [];
-    renderMovieGrid(currentMovieList, gid === "all" ? "🔥 জনপ্রিয় Bollywood Movies" : "");
+    const langName = MOVIE_LANGS[activeLang]?.langName || "";
+    renderMovieGrid(currentMovieList, `🔥 জনপ্রিয় ${langName} Movies`);
   } catch(e) {
     document.getElementById("movie-content-area").innerHTML =
       `<div class="movie-no-results"><div class="icon">📡</div>লোড হয়নি। নেট চেক করুন।</div>`;
   }
 }
 
+/* ══ Search — searches across all languages ══ */
 async function searchMovies() {
   const q = document.getElementById("movie-search-input").value.trim();
   if (!q) return;
@@ -1851,7 +3560,7 @@ async function searchMovies() {
   buildGenreTabs();
   showMovieLoading();
   try {
-    const url = `${TMDB_BASE}/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}&language=en-US&page=1`;
+    const url = `${TMDB_BASE}/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}&page=1`;
     const res = await fetch(url);
     const data = await res.json();
     currentMovieList = data.results || [];
@@ -1862,6 +3571,7 @@ async function searchMovies() {
   }
 }
 
+/* ══ Render grid ══ */
 function renderMovieGrid(movies, label) {
   const area = document.getElementById("movie-content-area");
   if (!movies.length) {
@@ -1869,18 +3579,22 @@ function renderMovieGrid(movies, label) {
     return;
   }
   const cards = movies.map((m, i) => {
-    const poster = m.poster_path
-      ? `<img class="movie-poster" src="${TMDB_IMG}${m.poster_path}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
+    const hasPoster = !!m.poster_path;
+    const poster = hasPoster
+      ? `<img class="movie-poster" src="${TMDB_IMG}${m.poster_path}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       : ``;
-    const ph = `<div class="movie-poster-placeholder" ${m.poster_path?'style="display:none"':''}>🎬</div>`;
-    const year = m.release_date ? m.release_date.slice(0,4) : "";
+    const ph = `<div class="movie-poster-placeholder"${hasPoster?' style="display:none"':''}>🎬</div>`;
+    const year   = m.release_date ? m.release_date.slice(0,4) : "";
     const rating = m.vote_average ? "⭐ " + m.vote_average.toFixed(1) : "";
     return `<div class="movie-card" onclick="openMovieModal(${m.id})" style="animation-delay:${(i*0.03).toFixed(2)}s">
-      ${poster}${ph}
+      <div class="movie-card-poster-wrap">
+        ${poster}${ph}
+        <div class="movie-card-play-overlay"><div class="play-circle">▶</div></div>
+      </div>
       <div class="movie-card-info">
         <div class="movie-card-title">${m.title||m.original_title}</div>
         <div class="movie-card-meta">
-          ${year ? `<span class="movie-card-year">${year}</span>` : ""}
+          ${year   ? `<span class="movie-card-year">${year}</span>` : ""}
           ${rating ? `<span class="movie-card-rating">${rating}</span>` : ""}
         </div>
       </div>
@@ -1892,92 +3606,201 @@ function renderMovieGrid(movies, label) {
     <div class="movie-grid">${cards}</div>`;
 }
 
-let activeEmbedSrc = 0;
-let currentEmbedMovieId = null;
+/* ══ Auto-Failover Embed Player ══ */
 
-function buildEmbedPlayer(movieId, srcIdx) {
-  const src = EMBED_SOURCES[srcIdx];
-  const url = src.fn(movieId);
-  const srcBtns = EMBED_SOURCES.map((s, i) =>
-    `<button class="movie-src-btn${i===srcIdx?' active':''}" onclick="switchEmbedSrc(${i},'${movieId}')">${s.name}</button>`
-  ).join("");
-  return `
-    <div class="movie-src-row">
-      <span class="movie-src-label">সার্ভার:</span>
-      ${srcBtns}
-    </div>
-    <div class="movie-player-wrap" id="embed-player-wrap" data-movie-id="${movieId}">
-      <div class="movie-player-loading" id="embed-loading">
-        <div class="mini-spinner"></div>
-        <span>প্লেয়ার লোড হচ্ছে…</span>
-      </div>
-      <iframe id="embed-iframe"
-        src="${url}"
-        allowfullscreen
-        webkitallowfullscreen
-        mozallowfullscreen
-        allow="autoplay; fullscreen *; picture-in-picture; encrypted-media; web-share"
-        referrerpolicy="no-referrer-when-downgrade"
-        onload="document.getElementById('embed-loading').classList.add('hide')"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:12px;">
-      </iframe>
-      <button class="movie-embed-fs-btn" title="ফুলস্ক্রিন" onclick="embedFullscreen()">⛶</button>
-    </div>`;
+function buildServerTabs(currentIdx, statuses) {
+  // statuses: array of 'idle'|'trying'|'ok'|'fail'
+  const tabs = EMBED_SERVERS.map((s, i) => {
+    const st = statuses[i] || "idle";
+    const dotClass = st === "ok" ? "ok" : st === "trying" ? "trying" : st === "fail" ? "fail" : "";
+    const tabClass  = i === currentIdx ? "active" : st === "trying" ? "trying" : st === "fail" ? "failed" : "";
+    return `<button class="server-tab ${tabClass}" id="stab-${i}" onclick="manualSwitchServer(${i})" title="${s.name}">
+      ${dotClass ? `<div class="server-status-dot ${dotClass}"></div>` : ""}
+      ${s.name}
+    </button>`;
+  }).join("");
+  return `<div class="server-tabs">
+    <span class="server-tab-label">সার্ভার:</span>
+    ${tabs}
+  </div>`;
 }
 
-function switchEmbedSrc(idx, movieIdFromBtn) {
-  activeEmbedSrc = idx;
-  // Use movie ID from button arg (most reliable), else fall back to global
-  const movieId = movieIdFromBtn || currentEmbedMovieId ||
-    (document.getElementById("embed-player-wrap") && document.getElementById("embed-player-wrap").dataset.movieId);
-  if (!movieId) return;
-  currentEmbedMovieId = movieId; // keep global in sync
+function renderEmbedPlayer(movieId, idx, statuses) {
   const wrap = document.getElementById("embed-player-wrap");
   if (!wrap) return;
-  const loading = document.getElementById("embed-loading");
-  const iframe = document.getElementById("embed-iframe");
-  if (loading) { loading.classList.remove("hide"); loading.style.opacity = "1"; }
-  if (iframe) {
-    // Reset src briefly to force reload on same URL edge case
-    iframe.src = "about:blank";
-    setTimeout(() => {
-      iframe.src = EMBED_SOURCES[idx].fn(movieId);
-    }, 80);
+  // Update server tabs
+  document.getElementById("server-tabs-row").innerHTML = buildServerTabs(idx, statuses);
+  // Show loading overlay
+  const loadOverlay = document.getElementById("embed-load-overlay");
+  const errOverlay  = document.getElementById("embed-err-overlay");
+  if (loadOverlay) {
+    loadOverlay.classList.remove("hide");
+    document.getElementById("embed-load-server").textContent = EMBED_SERVERS[idx].name;
   }
-  // Update active button highlight
-  document.querySelectorAll(".movie-src-btn").forEach((b, i) => {
-    b.classList.toggle("active", i === idx);
+  if (errOverlay) errOverlay.classList.remove("show");
+  // Set iframe src
+  const iframe = document.getElementById("embed-iframe");
+  if (iframe) iframe.src = EMBED_SERVERS[idx].fn(movieId);
+}
+
+// Called when iframe fires onload
+function onEmbedLoad() {
+  clearFailoverTimer();
+  const loadOverlay = document.getElementById("embed-load-overlay");
+  if (loadOverlay) {
+    loadOverlay.classList.add("hide");
+    const dot = document.getElementById("stab-" + activeServerIdx)?.querySelector(".server-status-dot");
+    if (dot) { dot.className = "server-status-dot ok"; }
+    const tab = document.getElementById("stab-" + activeServerIdx);
+    if (tab) { tab.className = "server-tab active"; }
+  }
+  // Layer 2: Allow one popup so the player can load its video stream
+  if (window._allowNextPopup) window._allowNextPopup();
+  // Layer 4: Start ad-skip countdown
+  startAdSkipCountdown();
+}
+
+// Called on iframe error
+function onEmbedError() {
+  clearFailoverTimer();
+  tryNextServer();
+}
+
+function clearFailoverTimer() {
+  if (embedFailoverTimer) { clearTimeout(embedFailoverTimer); embedFailoverTimer = null; }
+}
+
+function startFailoverTimer() {
+  clearFailoverTimer();
+  embedFailoverTimer = setTimeout(() => tryNextServer(), SERVER_TIMEOUT_MS);
+}
+
+function tryNextServer() {
+  const statuses = getServerStatuses();
+  statuses[activeServerIdx] = "fail";
+  // mark tab failed
+  const tab = document.getElementById("stab-" + activeServerIdx);
+  if (tab) tab.className = "server-tab failed";
+  const dot = tab?.querySelector(".server-status-dot");
+  if (dot) dot.className = "server-status-dot fail";
+
+  const next = activeServerIdx + 1;
+  if (next < EMBED_SERVERS.length) {
+    activeServerIdx = next;
+    statuses[next] = "trying";
+    renderEmbedPlayer(currentEmbedMovieId, next, statuses);
+    startFailoverTimer();
+  } else {
+    // All servers failed → show error overlay
+    const loadOverlay = document.getElementById("embed-load-overlay");
+    const errOverlay  = document.getElementById("embed-err-overlay");
+    if (loadOverlay) loadOverlay.classList.add("hide");
+    if (errOverlay)  errOverlay.classList.add("show");
+  }
+}
+
+function getServerStatuses() {
+  // Read current statuses from DOM
+  return EMBED_SERVERS.map((_, i) => {
+    const tab = document.getElementById("stab-" + i);
+    if (!tab) return "idle";
+    if (tab.classList.contains("active")) return "ok";
+    if (tab.classList.contains("trying")) return "trying";
+    if (tab.classList.contains("failed")) return "fail";
+    return "idle";
   });
 }
 
-function embedFullscreen() {
-  const iframe = document.getElementById("embed-iframe");
-  if (!iframe) return;
-  const req = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen || iframe.msRequestFullscreen;
-  if (req) req.call(iframe);
+// Manual server switch (user clicks)
+function manualSwitchServer(idx) {
+  clearFailoverTimer();
+  activeServerIdx = idx;
+  const statuses = EMBED_SERVERS.map(() => "idle");
+  statuses[idx] = "trying";
+  renderEmbedPlayer(currentEmbedMovieId, idx, statuses);
+  startFailoverTimer();
 }
 
+// Retry from server 1
+function retryEmbed() {
+  activeServerIdx = 0;
+  const statuses = EMBED_SERVERS.map(() => "idle");
+  statuses[0] = "trying";
+  renderEmbedPlayer(currentEmbedMovieId, 0, statuses);
+  startFailoverTimer();
+}
+
+function buildFullPlayer(movieId) {
+  const statuses = EMBED_SERVERS.map((_, i) => i === 0 ? "trying" : "idle");
+  return `
+    <div class="embed-player-section">
+      <div id="server-tabs-row">${buildServerTabs(0, statuses)}</div>
+      <div class="movie-player-wrap" id="embed-player-wrap">
+        <div class="embed-loading-overlay" id="embed-load-overlay">
+          <div class="mini-spinner"></div>
+          <div class="embed-loading-text">প্লেয়ার লোড হচ্ছে…</div>
+          <div class="embed-loading-server" id="embed-load-server">${EMBED_SERVERS[0].name}</div>
+        </div>
+        <div class="embed-error-overlay" id="embed-err-overlay">
+          <div class="embed-error-icon">📡</div>
+          <div class="embed-error-msg">সব সার্ভার ব্যর্থ হয়েছে।<br>নিচের লিংক থেকে দেখুন।</div>
+          <button class="embed-retry-btn" onclick="retryEmbed()">🔄 আবার চেষ্টা</button>
+        </div>
+        <!-- LAYER 1 removed: sandbox broke embed player media loading.
+             Layers 2-4 below handle popup/redirect blocking instead. -->
+        <iframe id="embed-iframe"
+          src="${EMBED_SERVERS[0].fn(movieId)}"
+          allowfullscreen
+          allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
+          onload="onEmbedLoad()"
+          onerror="onEmbedError()"
+          scrolling="no">
+        </iframe>
+        <!-- LAYER 4: Ad-skip countdown bar -->
+        <div class="ad-skip-bar" id="ad-skip-bar" style="display:none">
+          <span id="ad-skip-countdown">5</span>
+          <span>সেকেন্ড</span>
+          <button class="ad-skip-btn" id="ad-skip-btn" disabled onclick="dismissAdOverlay()">
+            এড়িয়ে যান ▶
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ══ Open Movie Modal ══ */
 async function openMovieModal(movieId) {
+  clearFailoverTimer();
   currentEmbedMovieId = movieId;
-  activeEmbedSrc = 0;
+  activeServerIdx = 0;
+
   const overlay = document.getElementById("movie-modal-overlay");
-  const inner = document.getElementById("movie-modal-inner");
+  const inner   = document.getElementById("movie-modal-inner");
   inner.innerHTML = `<div class="movie-loading" style="min-height:200px"><div class="mini-spinner"></div>লোড হচ্ছে…</div>`;
   overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
 
   try {
-    const res = await fetch(`${TMDB_BASE}/movie/${movieId}?api_key=${TMDB_KEY}&language=en-US`);
-    const m = await res.json();
+    const res  = await fetch(`${TMDB_BASE}/movie/${movieId}?api_key=${TMDB_KEY}&language=en-US`);
+    const m    = await res.json();
 
-    const year = m.release_date ? m.release_date.slice(0,4) : "";
+    const year   = m.release_date ? m.release_date.slice(0,4) : "";
     const rating = m.vote_average ? m.vote_average.toFixed(1) : "";
-    const lang = m.original_language === "hi" ? "Hindi" : m.original_language === "bn" ? "Bengali" : (m.original_language||"").toUpperCase();
-    const genres = (m.genres||[]).slice(0,3).map(g => `<span class="movie-badge badge-genre">${g.name}</span>`).join("");
-    const title = m.title || m.original_title;
+    const langCode = m.original_language || "";
+    const langMap  = { hi:"Hindi", bn:"Bengali", ta:"Tamil", te:"Telugu", en:"English", ml:"Malayalam", kn:"Kannada" };
+    const lang     = langMap[langCode] || langCode.toUpperCase();
+    const genres   = (m.genres||[]).slice(0,3).map(g => `<span class="movie-badge badge-genre">${g.name}</span>`).join("");
+    const title    = m.title || m.original_title;
 
-    const streamBtns = STREAM_PLATFORMS.map(p => {
-      const link = p.url.replace("{title}", encodeURIComponent(title));
-      return `<a class="stream-btn" href="${link}" target="_blank" rel="noopener">
+    const titleSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+
+    const streamBtns = STREAM_PLATFORMS
+      .filter(p => !p.langs || p.langs.includes(langCode))
+      .map(p => {
+      const link = p.url
+        .replace("{title}", encodeURIComponent(title))
+        .replace("{slug}",  titleSlug);
+      return `<a class="stream-btn" href="${link}" target="_blank" rel="noopener noreferrer">
         <span class="stream-btn-icon">${p.icon}</span>
         <div class="stream-btn-info">
           <div class="stream-btn-name">${p.name}</div>
@@ -1987,38 +3810,58 @@ async function openMovieModal(movieId) {
       </a>`;
     }).join("");
 
+    const posterHtml = m.poster_path
+      ? `<div class="movie-modal-poster"><img src="${TMDB_IMG}${m.poster_path}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\"movie-modal-poster-ph\\">🎬</div>'"></div>`
+      : `<div class="movie-modal-poster"><div class="movie-modal-poster-ph">🎬</div></div>`;
+
     inner.innerHTML = `
       <div class="movie-modal-body">
-        <div class="movie-modal-title">${title}</div>
-        ${m.tagline ? `<div class="movie-modal-tagline">"${m.tagline}"</div>` : ""}
-        <div class="movie-modal-badges">
-          ${year ? `<span class="movie-badge badge-year">${year}</span>` : ""}
-          ${rating ? `<span class="movie-badge badge-rating">⭐ ${rating}/10</span>` : ""}
-          ${lang ? `<span class="movie-badge badge-lang">${lang}</span>` : ""}
-          ${genres}
+        <div class="movie-modal-header">
+          ${posterHtml}
+          <div class="movie-modal-meta">
+            <div class="movie-modal-title">${title}</div>
+            ${m.tagline ? `<div class="movie-modal-tagline">"${m.tagline}"</div>` : ""}
+            <div class="movie-modal-badges">
+              ${year   ? `<span class="movie-badge badge-year">${year}</span>` : ""}
+              ${rating ? `<span class="movie-badge badge-rating">⭐ ${rating}/10</span>` : ""}
+              ${lang   ? `<span class="movie-badge badge-lang">${lang}</span>` : ""}
+              ${genres}
+            </div>
+          </div>
         </div>
+
         ${m.overview ? `<div class="movie-modal-overview">${m.overview}</div>` : ""}
 
-        <!-- ▶ Built-in Embed Player -->
-        ${buildEmbedPlayer(movieId, 0)}
+        ${buildFullPlayer(movieId)}
 
-        <!-- Fallback external links -->
         <div class="movie-stream-section">
-          <div class="movie-stream-label">🔗 অন্য প্ল্যাটফর্মে দেখুন</div>
+          <div class="movie-stream-label">অন্য প্ল্যাটফর্মে দেখুন</div>
           <div class="movie-stream-btns">${streamBtns}</div>
         </div>
       </div>`;
+
+    // Start failover timer after DOM is ready
+    startFailoverTimer();
+
   } catch(e) {
     inner.innerHTML = `<div class="movie-no-results" style="min-height:180px"><div class="icon">😕</div>তথ্য লোড হয়নি।</div>`;
   }
 }
 
 function closeMovieModal(e) {
-  if (e.target === document.getElementById("movie-modal-overlay"))
-    document.getElementById("movie-modal-overlay").classList.remove("open");
+  if (e.target === document.getElementById("movie-modal-overlay")) {
+    _doCloseModal();
+  }
 }
-function closeMovieModalBtn() {
+function closeMovieModalBtn() { _doCloseModal(); }
+function _doCloseModal() {
+  clearFailoverTimer();
+  stopAdSkipCountdown();
+  // stop iframe playback
+  const iframe = document.getElementById("embed-iframe");
+  if (iframe) iframe.src = "about:blank";
   document.getElementById("movie-modal-overlay").classList.remove("open");
+  document.body.style.overflow = "";
 }
 </script>
 </body>

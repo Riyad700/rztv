@@ -647,6 +647,323 @@ video {
 }
 
 /* ═══════════════════════════════════════
+   FIFA WORLD CUP DEDICATED SECTION
+═══════════════════════════════════════ */
+.fifa-section {
+  margin: 0;
+  padding: 10px 10px 4px;
+}
+
+.fifa-hero-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(135deg,
+    rgba(6,30,18,0.98) 0%,
+    rgba(8,24,40,0.98) 40%,
+    rgba(10,20,50,0.98) 100%);
+  border: 1px solid rgba(245,166,35,0.55);
+  box-shadow:
+    0 0 0 1px rgba(245,166,35,0.12),
+    0 8px 40px rgba(245,166,35,0.18),
+    0 0 80px rgba(245,166,35,0.05) inset;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s;
+  animation: cardIn 0.4s ease both;
+}
+.fifa-hero-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(245,166,35,0.28),
+    0 12px 48px rgba(245,166,35,0.28),
+    0 0 80px rgba(245,166,35,0.08) inset;
+}
+.fifa-hero-card:active { transform: scale(0.98); }
+
+/* Animated pitch lines */
+.fifa-hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      transparent 48%,
+      rgba(255,255,255,0.025) 49.5%,
+      rgba(255,255,255,0.025) 50.5%,
+      transparent 52%),
+    radial-gradient(ellipse 55% 35% at 50% 50%,
+      transparent 60%,
+      rgba(255,255,255,0.018) 60%,
+      rgba(255,255,255,0.018) 62%,
+      transparent 63%);
+  pointer-events: none;
+}
+/* Gold shimmer sweep */
+.fifa-hero-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    transparent 25%,
+    rgba(245,166,35,0.07) 50%,
+    transparent 75%);
+  animation: fifaHeroShimmer 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes fifaHeroShimmer {
+  0%,100% { opacity: 0.4; transform: translateX(-80%); }
+  50%      { opacity: 1;   transform: translateX(80%); }
+}
+
+.fifa-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+/* Trophy + logo column */
+.fifa-hero-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.fifa-trophy-wrap {
+  position: relative;
+  width: 62px; height: 62px;
+  display: flex; align-items: center; justify-content: center;
+}
+.fifa-trophy-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(245,166,35,0.4);
+  animation: spinSlow 10s linear infinite;
+}
+.fifa-trophy-ring::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(245,166,35,0.5);
+}
+.fifa-trophy-logo {
+  width: 50px; height: 50px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(245,166,35,0.5));
+}
+.fifa-live-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #000;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border-radius: 20px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  box-shadow: 0 0 12px rgba(245,166,35,0.55);
+  animation: fifaBadgePulse 2s ease-in-out infinite;
+}
+.fifa-live-pill .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #000;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* Middle info */
+.fifa-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+.fifa-hero-eyebrow {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.fifa-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1.5px;
+  line-height: 1.05;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 55%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.fifa-hero-sub {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.fifa-host-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.fifa-host-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid rgba(245,166,35,0.3);
+  color: var(--gold2);
+  background: rgba(245,166,35,0.08);
+  letter-spacing: 0.4px;
+}
+.fifa-host-badge.teal {
+  border-color: rgba(34,211,238,0.3);
+  color: var(--teal);
+  background: rgba(34,211,238,0.06);
+}
+
+/* Right CTA */
+.fifa-hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.fifa-watch-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 18px rgba(245,166,35,0.35);
+  min-width: 68px;
+  text-align: center;
+}
+.fifa-watch-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 24px rgba(245,166,35,0.55);
+}
+.fifa-watch-btn:active { transform: scale(0.95); }
+.fifa-watch-icon { font-size: 22px; line-height: 1; }
+.fifa-watch-label {
+  font-size: 8px;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fifa-ext-note {
+  font-size: 8px;
+  color: var(--muted2);
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+/* Score strip under hero */
+.fifa-score-strip {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.fifa-score-strip::-webkit-scrollbar { display: none; }
+.fifa-score-chip {
+  flex-shrink: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.fifa-score-chip:hover {
+  border-color: rgba(245,166,35,0.4);
+  background: rgba(245,166,35,0.06);
+}
+.fifa-score-chip .score { 
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.fifa-score-chip .vs {
+  font-size: 8px;
+  color: var(--muted2);
+  font-weight: 500;
+}
+.fifa-score-chip .live-tag {
+  font-size: 7px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(248,113,113,0.15);
+  color: var(--red);
+  border: 1px solid rgba(248,113,113,0.3);
+  letter-spacing: 0.8px;
+}
+.fifa-score-chip .upcoming-tag {
+  font-size: 7px;
+  font-weight: 700;
+  color: var(--muted2);
+  letter-spacing: 0.4px;
+}
+.fifa-score-meta {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted2);
+  text-align: right;
+  letter-spacing: 0.4px;
+  padding: 0 14px 6px;
+}
+
+/* Section divider label */
+.fifa-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 6px;
+}
+.fifa-section-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.fifa-section-divider-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--muted2);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
    SPLASH SCREEN
 ═══════════════════════════════════════ */
 #splash {
@@ -2282,6 +2599,95 @@ video {
   margin-bottom: 5px;
   text-transform: uppercase;
 }
+
+/* ═══════════════════════════════════════
+   বাহিরের চ্যানেল (FIFA ইত্যাদি) — যাওয়ার আগে নোটিস
+═══════════════════════════════════════ */
+.ext-notice-overlay { z-index: 5500; }
+.ext-notice-warn {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,166,35,0.22);
+  font-size: 12.5px; line-height: 1.6;
+  color: var(--text);
+}
+.ext-notice-warn strong { color: var(--gold); }
+.ext-notice-actions {
+  display: flex; gap: 10px;
+  padding: 14px 20px 4px;
+}
+.ext-notice-cancel-btn,
+.ext-notice-continue-btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 13px 10px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px; font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.2px;
+  transition: all 0.2s;
+}
+.ext-notice-cancel-btn {
+  background: rgba(148,163,184,0.08);
+  border: 1px solid var(--border-m);
+  color: var(--muted);
+}
+.ext-notice-cancel-btn:hover { color: var(--text); background: rgba(148,163,184,0.14); }
+.ext-notice-continue-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #1a1206;
+  box-shadow: 0 4px 18px rgba(245,166,35,0.25);
+}
+.ext-notice-continue-btn:hover { box-shadow: 0 4px 22px rgba(245,166,35,0.4); transform: translateY(-1px); }
+.ext-notice-continue-btn:active { transform: scale(0.97); }
+
+/* Multi-link buttons for channels with multiple streams */
+.ext-multi-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 20px 6px;
+  text-align: center;
+}
+.ext-multi-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px 4px;
+}
+.ext-multi-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(245,166,35,0.35);
+  background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(34,211,238,0.05));
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.2px;
+  transition: all 0.2s;
+  text-align: left;
+}
+.ext-multi-btn:hover {
+  background: linear-gradient(135deg, rgba(245,166,35,0.18), rgba(34,211,238,0.1));
+  border-color: rgba(245,166,35,0.6);
+  box-shadow: 0 4px 18px rgba(245,166,35,0.2);
+  transform: translateY(-1px);
+}
+.ext-multi-btn:active { transform: scale(0.97); }
+.ext-multi-btn .ext-arrow { font-size: 14px; color: var(--gold); flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -2370,6 +2776,77 @@ video {
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="tabs" id="tabs"></div>
+
+    <!-- ══ FIFA WORLD CUP 2026 SECTION ══ -->
+    <div class="fifa-section" id="fifa-section">
+      <!-- Hero Banner -->
+      <div class="fifa-hero-card" onclick="openFifaChannel()">
+        <div class="fifa-hero-inner">
+          <!-- Left: logo + live pill -->
+          <div class="fifa-hero-left">
+            <div class="fifa-trophy-wrap">
+              <div class="fifa-trophy-ring"></div>
+              <img class="fifa-trophy-logo"
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/6/67/2026_FIFA_World_Cup_emblem.svg/200px-2026_FIFA_World_Cup_emblem.svg.png"
+                onerror="this.style.display='none'"
+                alt="FIFA 2026">
+            </div>
+            <div class="fifa-live-pill">
+              <div class="dot"></div>LIVE NOW
+            </div>
+          </div>
+
+          <!-- Middle: info -->
+          <div class="fifa-hero-info">
+            <div class="fifa-hero-eyebrow">🏆 FIFA 2026</div>
+            <div class="fifa-hero-title">World Cup<br>2026</div>
+            <div class="fifa-hero-sub">USA · Canada · Mexico<br>সরাসরি দেখুন বাংলায়</div>
+            <div class="fifa-host-badges">
+              <span class="fifa-host-badge">🇺🇸 USA</span>
+              <span class="fifa-host-badge">🇨🇦 Canada</span>
+              <span class="fifa-host-badge teal">🇲🇽 Mexico</span>
+            </div>
+          </div>
+
+          <!-- Right: CTA -->
+          <div class="fifa-hero-right">
+            <button class="fifa-watch-btn" onclick="event.stopPropagation(); openFifaChannel()">
+              <span class="fifa-watch-icon">▶️</span>
+              <span class="fifa-watch-label">দেখুন</span>
+            </button>
+            <div class="fifa-ext-note">↗ নতুন ট্যাবে</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score / Match chips -->
+      <div class="fifa-score-strip" id="fifa-score-strip">
+        <div class="fifa-score-chip" onclick="openFifaChannel()">
+          🇧🇷 BRA <span class="score">0 – 1</span> MAR 🇲🇦
+          <span class="live-tag">LIVE</span>
+        </div>
+        <div class="fifa-score-chip" onclick="openFifaChannel()">
+          🇩🇪 GER <span class="vs">vs</span> CUW 🇨🇼
+          <span class="upcoming-tag">রাত ১১:০০</span>
+        </div>
+        <div class="fifa-score-chip" onclick="openFifaChannel()">
+          🇳🇱 NED <span class="vs">vs</span> JPN 🇯🇵
+          <span class="upcoming-tag">ভোর ২:০০</span>
+        </div>
+        <div class="fifa-score-chip" onclick="openFifaChannel()">
+          সব ম্যাচ দেখুন ↗
+        </div>
+      </div>
+      <div class="fifa-score-meta">আজ, ১৪ জুন · বাংলাদেশ সময়</div>
+
+      <!-- Divider before regular channels -->
+      <div class="fifa-section-divider">
+        <div class="fifa-section-divider-line"></div>
+        <div class="fifa-section-divider-label">সব চ্যানেল</div>
+        <div class="fifa-section-divider-line"></div>
+      </div>
+    </div>
+
     <div class="channels" id="channels"></div>
   </div>
 </div>
@@ -2612,11 +3089,69 @@ video {
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     বাহিরের চ্যানেল (FIFA ইত্যাদি) — ওপেন হওয়ার আগে নোটিস পপআপ
+     (রিয়াদ ভাই ফ্লোটিং বাটন থেকে তথ্য নেওয়া হয়েছে)
+═══════════════════════════════════════════ -->
+<div class="riyad-drawer-overlay ext-notice-overlay" id="ext-notice-overlay" onclick="onExtNoticeOverlayClick(event)">
+  <div class="riyad-drawer" id="ext-notice-drawer">
+    <div class="riyad-drawer-handle"></div>
+    <button class="riyad-drawer-close" onclick="closeExtNotice()">✕</button>
+
+    <!-- Profile -->
+    <div class="riyad-profile-header">
+      <div class="riyad-avatar">👨‍💻</div>
+      <div class="riyad-profile-info">
+        <div class="riyad-profile-name">রিয়াদ <em>ভাই</em></div>
+        <div class="riyad-profile-sub">Riyad TV — প্রতিষ্ঠাতা ও পরিচালক</div>
+        <div class="riyad-verified">✔ ভেরিফাইড</div>
+      </div>
+    </div>
+
+    <!-- About + Notice -->
+    <div class="riyad-about">
+      <strong>রিয়াদ ভাই</strong> হলেন <strong>Riyad TV</strong>-এর প্রতিষ্ঠাতা। এই প্ল্যাটফর্মে বাংলাদেশের সেরা লাইভ চ্যানেল, খেলাধুলা, বিনোদন ও মুভি একসাথে পাওয়া যায়। যেকোনো সমস্যা বা পরামর্শের জন্য সরাসরি যোগাযোগ করুন।
+      <div class="ext-notice-warn">
+        ⚠️ আপনি এখন <strong id="ext-notice-channel-name">FIFA World Cup</strong> দেখতে <strong>Riyad TV</strong>-এর বাহিরে একটি ভিন্ন ওয়েবসাইটে যাচ্ছেন। সেখানকার কনটেন্ট বা বিজ্ঞাপনের জন্য Riyad TV দায়ী নয়। কোনো সমস্যা হলে নিচের নাম্বারে যোগাযোগ করুন।
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="riyad-contact-section">
+      <div class="riyad-contact-label">📞 যোগাযোগ করুন</div>
+      <div class="riyad-contact-btns">
+        <a class="riyad-contact-btn riyad-btn-call" href="tel:09658069371">
+          <span>📞</span> কল করুন
+        </a>
+        <a class="riyad-contact-btn riyad-btn-wa" href="https://wa.me/8801830334803" target="_blank" rel="noopener noreferrer">
+          <span>💬</span> WhatsApp
+        </a>
+      </div>
+      <div class="riyad-number-row">
+        <div class="riyad-number-chip">📞 09658-069371</div>
+        <div class="riyad-number-chip">💬 01830-334803</div>
+      </div>
+    </div>
+
+    <!-- Continue / Cancel -->
+    <div id="ext-notice-actions-wrap">
+      <div class="ext-notice-actions">
+        <button class="ext-notice-cancel-btn" onclick="closeExtNotice()">বাতিল</button>
+        <button class="ext-notice-continue-btn" onclick="proceedToExternalChannel()">চ্যানেলে যান ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const CHANNELS = [
   // ═══ ফিচার্ড ═══
   { name:"FIFA World Cup 🏆", cat:"খেলাধুলা",
     url:"https://sportslivetoday.com/?currentTagId=4186762757372631736&currentTagName=FIFA+World+Cup&from=home_top_tab&utm_source=app_inner_share",
+    links:[
+      { label:"SportsLive Today", url:"https://sportslivetoday.com/?currentTagId=4186762757372631736&currentTagName=FIFA+World+Cup&from=home_top_tab&utm_source=app_inner_share" },
+      { label:"LiveKhela TV", url:"https://livekhela.tv/" }
+    ],
     backup:[], external:true,
     logo:"https://upload.wikimedia.org/wikipedia/en/thumb/6/67/2026_FIFA_World_Cup_emblem.svg/200px-2026_FIFA_World_Cup_emblem.svg.png" },
 
@@ -2790,8 +3325,80 @@ function getInitials(name) {
   return name.replace(/TV|তিভি/gi,"").trim().slice(0,3).toUpperCase();
 }
 
+function openFifaChannel() {
+  const fifaCh = CHANNELS.find(c => c.name.includes("FIFA"));
+  if (fifaCh) openExternalChannel(fifaCh);
+}
+
+/* ── বাহিরের চ্যানেল ওপেন করার আগে রিয়াদ ভাই তথ্য পপআপ ── */
+let pendingExternalUrl = null;
+
+function openExternalChannel(ch) {
+  pendingExternalUrl = ch.url;
+  const nameEl = document.getElementById("ext-notice-channel-name");
+  if (nameEl) nameEl.textContent = ch.name;
+
+  // Build actions area — single button or multi-link buttons
+  const wrap = document.getElementById("ext-notice-actions-wrap");
+  if (wrap) {
+    if (ch.links && ch.links.length > 1) {
+      // Multiple links — show one button per link
+      wrap.innerHTML = `
+        <div class="ext-multi-label">লিংক বেছে নিন</div>
+        <div class="ext-multi-links">
+          ${ch.links.map(l => `
+            <button class="ext-multi-btn" onclick="openDirectLink('${l.url.replace(/'/g,"\\'")}')">
+              <span>${l.label}</span>
+              <span class="ext-arrow">↗</span>
+            </button>`).join("")}
+        </div>
+        <div class="ext-notice-actions" style="padding-top:4px">
+          <button class="ext-notice-cancel-btn" style="flex:1" onclick="closeExtNotice()">বাতিল</button>
+        </div>`;
+    } else {
+      // Single link — default layout
+      wrap.innerHTML = `
+        <div class="ext-notice-actions">
+          <button class="ext-notice-cancel-btn" onclick="closeExtNotice()">বাতিল</button>
+          <button class="ext-notice-continue-btn" onclick="proceedToExternalChannel()">চ্যানেলে যান ↗</button>
+        </div>`;
+    }
+  }
+
+  document.getElementById("ext-notice-overlay").classList.add("open");
+}
+
+function openDirectLink(url) {
+  window.open(url, "_blank", "noopener,noreferrer");
+  closeExtNotice();
+}
+
+function closeExtNotice() {
+  document.getElementById("ext-notice-overlay").classList.remove("open");
+  pendingExternalUrl = null;
+}
+
+function onExtNoticeOverlayClick(e) {
+  if (e.target.id === "ext-notice-overlay") closeExtNotice();
+}
+
+function proceedToExternalChannel() {
+  if (pendingExternalUrl) window.open(pendingExternalUrl, "_blank", "noopener,noreferrer");
+  closeExtNotice();
+}
+
 function buildGrid() {
-  const list = activeCat === "সব" ? CHANNELS : CHANNELS.filter(c => c.cat === activeCat);
+  // Exclude FIFA from the regular grid — it has its own dedicated section
+  const list = (activeCat === "সব" ? CHANNELS : CHANNELS.filter(c => c.cat === activeCat))
+               .filter(c => !c.name.includes("FIFA"));
+
+  // Show/hide FIFA section based on active category
+  const fifaSection = document.getElementById("fifa-section");
+  if (fifaSection) {
+    const showFifa = activeCat === "সব" || activeCat === "খেলাধুলা";
+    fifaSection.style.display = showFifa ? "" : "none";
+  }
+
   const el = document.getElementById("channels");
   el.innerHTML = list.map((ch) => {
     const realIdx = CHANNELS.indexOf(ch);
@@ -2799,17 +3406,13 @@ function buildGrid() {
     const logoHtml = ch.logo
       ? `<img class="ch-logo" src="${ch.logo}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" loading="lazy"><div class="ch-logo-placeholder" style="display:none">${getInitials(ch.name)}</div>`
       : `<div class="ch-logo-placeholder">${getInitials(ch.name)}</div>`;
-    const isFifa = ch.name.includes("FIFA");
-    return `<div class="ch-card${sel?' selected':''}${isFifa?' fifa-highlight':''}" onclick="playChannel(${realIdx})" style="animation-delay:${(list.indexOf(ch)*0.03).toFixed(2)}s">
+    return `<div class="ch-card${sel?' selected':''}" onclick="playChannel(${realIdx})" style="animation-delay:${(list.indexOf(ch)*0.03).toFixed(2)}s">
       ${logoHtml}
       <div class="ch-info">
         <div class="ch-name">${ch.name}</div>
         <div class="ch-cat">${ch.cat}</div>
       </div>
-      ${isFifa
-        ? `<div class="fifa-right"><div class="fifa-badge">🏆 HOT</div><div class="fifa-ext-tag">↗ নতুন ট্যাবে খুলবে</div></div>`
-        : `<div class="ch-badge" style="${ch.external ? 'background:var(--gold-dim);color:var(--gold);border-color:rgba(245,166,35,0.25)' : ''}">${ch.external ? '↗ LINK' : 'LIVE'}</div>`
-      }
+      <div class="ch-badge" style="${ch.external ? 'background:var(--gold-dim);color:var(--gold);border-color:rgba(245,166,35,0.25)' : ''}">${ch.external ? '↗ LINK' : 'LIVE'}</div>
     </div>`;
   }).join("");
 }
@@ -2886,9 +3489,9 @@ function retry() { if (currentIdx >= 0) playChannel(currentIdx); }
 
 function playChannel(idx, onReady) {
   const ch = CHANNELS[idx];
-  // External link channels — open in new tab, no HLS playback
+  // External link channels — show Riyad info notice first, then open
   if (ch.external) {
-    window.open(ch.url, "_blank", "noopener,noreferrer");
+    openExternalChannel(ch);
     return;
   }
   if (idx === currentIdx && hlsInstance && !onReady) return;

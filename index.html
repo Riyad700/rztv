@@ -2309,31 +2309,7 @@ video {
 /* ═══════════════════════════════════════
    রিয়াদ ভাই FLOATING BUTTON
 ═══════════════════════════════════════ */
-.riyad-fab {
-  position: fixed;
-  bottom: 80px; left: 14px;
-  z-index: 549;
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, #1a2a1a 0%, #0f1f0f 100%);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.5), 0 0 0 2px rgba(16,185,129,0.35), 0 0 14px rgba(16,185,129,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
-  -webkit-tap-highlight-color: transparent;
-  animation: fabPulse 3s ease-in-out infinite;
-}
-@keyframes fabPulse {
-  0%,100% { box-shadow: 0 4px 18px rgba(0,0,0,0.5), 0 0 0 2px rgba(16,185,129,0.35), 0 0 14px rgba(16,185,129,0.2); }
-  50%      { box-shadow: 0 4px 22px rgba(0,0,0,0.5), 0 0 0 3px rgba(16,185,129,0.55), 0 0 24px rgba(16,185,129,0.35); }
-}
-.riyad-fab:hover  { transform: scale(1.1); }
-.riyad-fab:active { transform: scale(0.92); }
-@media (min-width: 900px) {
-  .riyad-fab { bottom: 24px; left: 24px; }
-}
+
 
 /* ═══════════════════════════════════════
    রিয়াদ INFO DRAWER
@@ -2688,6 +2664,100 @@ video {
 }
 .ext-multi-btn:active { transform: scale(0.97); }
 .ext-multi-btn .ext-arrow { font-size: 14px; color: var(--gold); flex-shrink: 0; }
+
+/* ═══════════════════════════════════════
+   STREAMING AVAILABILITY SECTION
+═══════════════════════════════════════ */
+.sa-section {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: rgba(34,211,238,0.04);
+  border: 1px solid rgba(34,211,238,0.1);
+  border-radius: 14px;
+}
+.sa-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sa-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 3px; height: 12px;
+  background: var(--teal);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(34,211,238,0.5);
+}
+.sa-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.sa-mini-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(34,211,238,0.15);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.sa-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sa-platform-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border-radius: 22px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-m);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+.sa-platform-badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal);
+  box-shadow: 0 4px 14px rgba(34,211,238,0.15);
+  color: var(--teal);
+}
+.sa-icon { font-size: 14px; flex-shrink: 0; }
+.sa-name { font-weight: 700; font-size: 12px; }
+.sa-flag { font-size: 11px; opacity: 0.7; }
+.sa-type {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  background: rgba(34,211,238,0.1);
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.sa-type.free { background: rgba(16,185,129,0.15); color: #10b981; }
+.sa-type.sub  { background: rgba(245,166,35,0.12); color: var(--gold); }
+.sa-type.rent { background: rgba(248,113,113,0.12); color: #f87171; }
+.sa-none {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 4px 0;
+}
 </style>
 </head>
 <body>
@@ -2819,25 +2889,11 @@ video {
         </div>
       </div>
 
-      <!-- Score / Match chips -->
+      <!-- Score / Match chips — dynamically loaded -->
       <div class="fifa-score-strip" id="fifa-score-strip">
-        <div class="fifa-score-chip" onclick="openFifaChannel()">
-          🇧🇷 BRA <span class="score">0 – 1</span> MAR 🇲🇦
-          <span class="live-tag">LIVE</span>
-        </div>
-        <div class="fifa-score-chip" onclick="openFifaChannel()">
-          🇩🇪 GER <span class="vs">vs</span> CUW 🇨🇼
-          <span class="upcoming-tag">রাত ১১:০০</span>
-        </div>
-        <div class="fifa-score-chip" onclick="openFifaChannel()">
-          🇳🇱 NED <span class="vs">vs</span> JPN 🇯🇵
-          <span class="upcoming-tag">ভোর ২:০০</span>
-        </div>
-        <div class="fifa-score-chip" onclick="openFifaChannel()">
-          সব ম্যাচ দেখুন ↗
-        </div>
+        <div class="fifa-score-chip" style="opacity:0.6">⏳ লাইভ স্কোর লোড হচ্ছে…</div>
       </div>
-      <div class="fifa-score-meta">আজ, ১৪ জুন · বাংলাদেশ সময়</div>
+      <div class="fifa-score-meta" id="fifa-score-meta">আজ · বাংলাদেশ সময়</div>
 
       <!-- Divider before regular channels -->
       <div class="fifa-section-divider">
@@ -2993,12 +3049,6 @@ video {
 ═══════════════════════════════════════════ -->
 <button class="scroll-top-btn" id="scroll-top-btn" onclick="scrollToTop()" title="উপরে যান">↑</button>
 
-<!-- ═══════════════════════════════════════════
-     রিয়াদ ভাই FLOATING BUTTON
-═══════════════════════════════════════════ -->
-<button class="riyad-fab" id="riyad-fab" onclick="openRiyadDrawer()" title="রিয়াদ ভাই — যোগাযোগ">
-  👨‍💻
-</button>
 
 <!-- ═══════════════════════════════════════════
      রিয়াদ ভাই INFO + AD DRAWER
@@ -3599,6 +3649,8 @@ playChannel(defaultIdx, () => { clearTimeout(splashTimeout); safeDismissSplash()
 const TMDB_KEY  = "137d31fac9d780136522a8c9ae1e21a6";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMG  = "https://image.tmdb.org/t/p/w342";
+const RAPID_KEY = "c46c8b5a66mshfa96556bf7c7e7ap18a655jsn8de64c66d6b8";
+const RAPID_STREAM_HOST = "streaming-availability.p.rapidapi.com";
 
 /* ── Language definitions ── */
 const MOVIE_LANGS = {
@@ -4372,6 +4424,123 @@ function buildFullPlayer(movieId) {
 }
 
 /* ══ Open Movie Modal ══ */
+
+/* ── Known service icons ── */
+const SA_SERVICE_ICONS = {
+  netflix:       "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/netflix.png",
+  prime:         "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/primevideo.png",
+  disney:        "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/disney.png",
+  hulu:          "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/hulu.png",
+  hbo:           "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/hbo.png",
+  appletv:       "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/appletv.png",
+  hotstar:       "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/hotstar.png",
+  zee5:          "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/zee5.png",
+  sonyliv:       "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/sonyliv.png",
+  youtube:       "https://cdn.jsdelivr.net/gh/nicehash/icons/streaming/youtube.png",
+};
+
+const SA_SERVICE_EMOJI = {
+  netflix: "🎬", prime: "📦", disney: "🏰", hulu: "📺",
+  hbo: "🎭", appletv: "🍎", hotstar: "⭐", zee5: "📡",
+  sonyliv: "🎥", youtube: "▶️", mubi: "🎞️", tubi: "📻",
+  peacock: "🦚", paramount: "⛰️", discovery: "🔭", curiosity: "🔬",
+};
+
+/* ── Streaming Availability via RapidAPI ── */
+async function fetchStreamingAvailability(tmdbId) {
+  // Show loading state immediately
+  const saBox = document.getElementById("sa-box");
+  if (saBox) {
+    saBox.innerHTML = `
+      <div class="sa-section-label">🌐 স্ট্রিমিং উপলব্ধতা</div>
+      <div class="sa-loading"><div class="sa-mini-spinner"></div>Platform খুঁজছে…</div>`;
+  }
+  try {
+    const url = `https://streaming-availability.p.rapidapi.com/shows/movie/${tmdbId}?output_language=en`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": RAPID_STREAM_HOST,
+        "x-rapidapi-key":  RAPID_KEY
+      }
+    });
+    if (!res.ok) { renderSAResult(null); return null; }
+    const data = await res.json();
+    renderSAResult(data);
+    return data;
+  } catch(e) {
+    renderSAResult(null);
+    return null;
+  }
+}
+
+function renderSAResult(data) {
+  const saBox = document.getElementById("sa-box");
+  if (!saBox) return;
+  saBox.innerHTML = buildStreamingAvailabilityHTML(data);
+}
+
+function buildStreamingAvailabilityHTML(data) {
+  if (!data || !data.streamingOptions) {
+    return `
+      <div class="sa-section-label">🌐 স্ট্রিমিং উপলব্ধতা</div>
+      <div class="sa-none">এই মুভি কোনো OTT platform-এ পাওয়া যায়নি।</div>`;
+  }
+
+  const allOptions = [];
+  const countryPriority = ["in","bd","us","gb","ca","au","de","fr"];
+  const typeLabel = { subscription:"Sub", free:"Free", rent:"Rent", buy:"Buy", addon:"Add-on" };
+  const typeClass = { subscription:"sub", free:"free", rent:"rent", buy:"rent", addon:"sub" };
+  const seen = new Set();
+
+  const countries = [
+    ...countryPriority.filter(c => data.streamingOptions[c]),
+    ...Object.keys(data.streamingOptions).filter(c => !countryPriority.includes(c))
+  ];
+
+  for (const country of countries) {
+    const options = data.streamingOptions[country] || [];
+    for (const opt of options) {
+      const svcId = opt.service?.id || "";
+      const key   = svcId + "-" + opt.type;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      allOptions.push({ ...opt, country });
+      if (allOptions.length >= 12) break;
+    }
+    if (allOptions.length >= 12) break;
+  }
+
+  if (allOptions.length === 0) {
+    return `
+      <div class="sa-section-label">🌐 স্ট্রিমিং উপলব্ধতা</div>
+      <div class="sa-none">এই মুভি কোনো OTT platform-এ পাওয়া যায়নি।</div>`;
+  }
+
+  const badges = allOptions.map(opt => {
+    const svcId  = opt.service?.id || "";
+    const name   = opt.service?.name || svcId || "Unknown";
+    const link   = opt.link || "#";
+    const type   = opt.type || "subscription";
+    const label  = typeLabel[type] || type;
+    const cls    = typeClass[type] || "sub";
+    const emoji  = SA_SERVICE_EMOJI[svcId] || "▶️";
+    const flag   = opt.country
+      ? opt.country.toUpperCase().replace(/./g, c => String.fromCodePoint(c.charCodeAt(0)+127397))
+      : "";
+    return `<a class="sa-platform-badge" href="${link}" target="_blank" rel="noopener noreferrer" title="${name} — ${label} (${opt.country||''})">
+      <span class="sa-icon">${emoji}</span>
+      <span class="sa-name">${name}</span>
+      <span class="sa-flag">${flag}</span>
+      <span class="sa-type ${cls}">${label}</span>
+    </a>`;
+  }).join("");
+
+  return `
+    <div class="sa-section-label">🌐 স্ট্রিমিং উপলব্ধতা</div>
+    <div class="sa-platforms">${badges}</div>`;
+}
+
 async function openMovieModal(movieId) {
   clearFailoverTimer();
   currentEmbedMovieId = movieId;
@@ -4384,8 +4553,9 @@ async function openMovieModal(movieId) {
   document.body.style.overflow = "hidden";
 
   try {
-    const res  = await fetch(`${TMDB_BASE}/movie/${movieId}?api_key=${TMDB_KEY}&language=en-US`);
-    const m    = await res.json();
+    // Fetch TMDB movie info
+    const res = await fetch(`${TMDB_BASE}/movie/${movieId}?api_key=${TMDB_KEY}&language=en-US`);
+    const m = await res.json();
 
     const year   = m.release_date ? m.release_date.slice(0,4) : "";
     const rating = m.vote_average ? m.vote_average.toFixed(1) : "";
@@ -4437,14 +4607,20 @@ async function openMovieModal(movieId) {
 
         ${buildFullPlayer(movieId)}
 
+        <div class="sa-section" id="sa-box">
+          <div class="sa-section-label">🌐 স্ট্রিমিং উপলব্ধতা</div>
+          <div class="sa-loading"><div class="sa-mini-spinner"></div>Platform খুঁজছে…</div>
+        </div>
+
         <div class="movie-stream-section">
           <div class="movie-stream-label">অন্য প্ল্যাটফর্মে দেখুন</div>
           <div class="movie-stream-btns">${streamBtns}</div>
         </div>
       </div>`;
 
-    // Start failover timer after DOM is ready
+    // Start failover timer + fetch streaming availability in parallel
     startFailoverTimer();
+    fetchStreamingAvailability(movieId);
 
   } catch(e) {
     inner.innerHTML = `<div class="movie-no-results" style="min-height:180px"><div class="icon">😕</div>তথ্য লোড হয়নি।</div>`;
@@ -4466,6 +4642,147 @@ function _doCloseModal() {
   document.getElementById("movie-modal-overlay").classList.remove("open");
   document.body.style.overflow = "";
 }
+
+/* ══════════════════════════════════════════════════════
+   FIFA WORLD CUP 2026 — LIVE SCORE LOADER
+   API: api-football-v1.p.rapidapi.com  (same RAPID_KEY)
+   League ID: 1 (FIFA World Cup), Season: 2026
+══════════════════════════════════════════════════════ */
+const FOOTBALL_API_HOST = "api-football-v1.p.rapidapi.com";
+const WC2026_LEAGUE     = 1;
+const WC2026_SEASON     = 2026;
+
+/* Team name → flag emoji mapping (FIFA WC 2026 qualified teams) */
+const TEAM_FLAGS = {
+  "Argentina":"🇦🇷","Australia":"🇦🇺","Belgium":"🇧🇪","Bolivia":"🇧🇴",
+  "Brazil":"🇧🇷","Cameroon":"🇨🇲","Canada":"🇨🇦","Chile":"🇨🇱",
+  "Colombia":"🇨🇴","Costa Rica":"🇨🇷","Croatia":"🇭🇷",
+  "Curacao":"🇨🇼","Curaçao":"🇨🇼","Czech Republic":"🇨🇿","Czechia":"🇨🇿",
+  "Denmark":"🇩🇰","Ecuador":"🇪🇨","Egypt":"🇪🇬","El Salvador":"🇸🇻",
+  "England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","France":"🇫🇷","Germany":"🇩🇪","Ghana":"🇬🇭",
+  "Honduras":"🇭🇳","Iran":"🇮🇷","Italy":"🇮🇹","Jamaica":"🇯🇲",
+  "Japan":"🇯🇵","Mali":"🇲🇱","Mexico":"🇲🇽","Morocco":"🇲🇦",
+  "Netherlands":"🇳🇱","New Zealand":"🇳🇿","Nigeria":"🇳🇬","Norway":"🇳🇴",
+  "Panama":"🇵🇦","Paraguay":"🇵🇾","Peru":"🇵🇪","Poland":"🇵🇱",
+  "Portugal":"🇵🇹","Qatar":"🇶🇦","Saudi Arabia":"🇸🇦","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  "Senegal":"🇸🇳","Serbia":"🇷🇸","South Korea":"🇰🇷","Korea Republic":"🇰🇷",
+  "Spain":"🇪🇸","Sweden":"🇸🇪","Switzerland":"🇨🇭",
+  "Trinidad and Tobago":"🇹🇹","Tunisia":"🇹🇳","Turkey":"🇹🇷","Türkiye":"🇹🇷",
+  "Ukraine":"🇺🇦","United States":"🇺🇸","USA":"🇺🇸","Uruguay":"🇺🇾",
+  "Venezuela":"🇻🇪","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+};
+
+const LIVE_STATUS = ["1H","2H","ET","P","HT","BT","INT","LIVE"];
+const FT_STATUS   = ["FT","AET","PEN"];
+
+/* Render chip list into #fifa-score-strip */
+function renderFifaChips(fixtures) {
+  const strip = document.getElementById("fifa-score-strip");
+  if (!strip) return;
+
+  if (!fixtures || fixtures.length === 0) {
+    strip.innerHTML = `
+      <div class="fifa-score-chip">📅 আজ কোনো ম্যাচ নেই</div>
+      <div class="fifa-score-chip" onclick="openFifaChannel()">সব ম্যাচ দেখুন ↗</div>`;
+    return;
+  }
+
+  let html = "";
+  fixtures.slice(0, 6).forEach(f => {
+    const home     = f.teams?.home?.name || "Home";
+    const away     = f.teams?.away?.name || "Away";
+    const homeCode = f.teams?.home?.code || home.substring(0,3).toUpperCase();
+    const awayCode = f.teams?.away?.code || away.substring(0,3).toUpperCase();
+    const homeFlag = TEAM_FLAGS[home] || "🏳";
+    const awayFlag = TEAM_FLAGS[away] || "🏳";
+    const hGoals   = f.goals?.home ?? null;
+    const aGoals   = f.goals?.away ?? null;
+    const status   = f.fixture?.status?.short || "NS";
+    const elapsed  = f.fixture?.status?.elapsed;
+
+    /* Convert kick-off to Bangladesh time (UTC+6) */
+    const matchUtc = new Date(f.fixture?.date || "");
+    const bdHours  = (matchUtc.getUTCHours() + 6) % 24;
+    const bdMin    = matchUtc.getUTCMinutes();
+    const h12      = bdHours % 12 || 12;
+    const ampm     = bdHours < 12 ? "AM" : "PM";
+    const timeStr  = `${h12}:${String(bdMin).padStart(2,"0")} ${ampm}`;
+
+    const isLive = LIVE_STATUS.includes(status);
+    const isFT   = FT_STATUS.includes(status);
+
+    const scoreOrVs = (isLive || isFT)
+      ? `<span class="score">${hGoals ?? 0} – ${aGoals ?? 0}</span>`
+      : `<span class="vs">vs</span>`;
+
+    const tag = isLive
+      ? `<span class="live-tag">${elapsed ? elapsed + "'" : "LIVE"}</span>`
+      : isFT
+        ? `<span class="upcoming-tag">FT</span>`
+        : `<span class="upcoming-tag">${timeStr}</span>`;
+
+    html += `<div class="fifa-score-chip" onclick="openFifaChannel()">
+      ${homeFlag} ${homeCode} ${scoreOrVs} ${awayCode} ${awayFlag} ${tag}
+    </div>`;
+  });
+  html += `<div class="fifa-score-chip" onclick="openFifaChannel()">সব ম্যাচ দেখুন ↗</div>`;
+  strip.innerHTML = html;
+
+  /* Update the meta date line with today's BD date */
+  const meta = document.getElementById("fifa-score-meta");
+  if (meta) {
+    const bdNow  = new Date(Date.now() + 6 * 3600000);
+    const dayStr = bdNow.toLocaleDateString("bn-BD", { day:"numeric", month:"long" });
+    meta.textContent = `আজ, ${dayStr} · বাংলাদেশ সময়`;
+  }
+}
+
+/* Main fetch function — called on load & every 60 s */
+async function loadFifaScores() {
+  const strip = document.getElementById("fifa-score-strip");
+  if (!strip) return;
+
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+  try {
+    /* Step 1: today's World Cup fixtures */
+    const res = await fetch(
+      `https://${FOOTBALL_API_HOST}/v3/fixtures?date=${today}&league=${WC2026_LEAGUE}&season=${WC2026_SEASON}`,
+      { headers: { "x-rapidapi-host": FOOTBALL_API_HOST, "x-rapidapi-key": RAPID_KEY } }
+    );
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    let fixtures = data.response || [];
+
+    /* Step 2: if none found, check any currently live WC match */
+    if (fixtures.length === 0) {
+      const liveRes = await fetch(
+        `https://${FOOTBALL_API_HOST}/v3/fixtures?live=all&league=${WC2026_LEAGUE}`,
+        { headers: { "x-rapidapi-host": FOOTBALL_API_HOST, "x-rapidapi-key": RAPID_KEY } }
+      );
+      if (liveRes.ok) {
+        const liveData = await liveRes.json();
+        fixtures = liveData.response || [];
+      }
+    }
+
+    renderFifaChips(fixtures);
+
+  } catch (err) {
+    console.error("FIFA score fetch error:", err);
+    const strip = document.getElementById("fifa-score-strip");
+    if (strip) strip.innerHTML = `
+      <div class="fifa-score-chip">❌ স্কোর লোড হয়নি</div>
+      <div class="fifa-score-chip" onclick="openFifaChannel()">সরাসরি দেখুন ↗</div>`;
+  }
+}
+
+/* Load immediately + auto-refresh every 60 seconds */
+document.addEventListener("DOMContentLoaded", () => {
+  loadFifaScores();
+  setInterval(loadFifaScores, 60_000);
+});
 </script>
 </body>
 </html>
